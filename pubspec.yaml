@@ -1,0 +1,8 @@
+name: tekartik_jqm
+author: alex@tekartik.com
+description: Polymer elements on jquerymobile
+dependencies:
+  browser: any
+  tekartik_jqm_asset:
+#    path: ../tekartik_jqm_asset.dart
+    git: https://github.com/alextekartik/tekartik_jqm_asset.dart.git
