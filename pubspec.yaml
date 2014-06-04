@@ -15,3 +15,4 @@ transformers:
 - polymer:
     entry_points: 
     - test/one_page.html
+    - test/jqm_pagecontainer_test.html

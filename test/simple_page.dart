@@ -2,8 +2,8 @@ import 'package:polymer/polymer.dart';
 
 import 'dart:js';
 import 'dart:html';
-
-import 'package:tekartik_jqm/jquerymobile.dart';
+import 'package:tekartik_jqm/jquerymobile.dart'; 
+import 'package:tekartik_jqm/jqm_pagecontainer.dart';
 import 'package:tekartik_utils/js_utils.dart';
 import 'package:tekartik_utils/dev_utils.dart';
 import 'package:tekartik_utils/polymer_utils.dart';
@@ -16,25 +16,33 @@ class SimplePage extends PolymerElement with NoShadowDom {
 
   JPageElement jPageElement;
   SimplePage.created() : super.created() {
-    print('created');
-    JsObject jsObject = jq.queryElement($['simple']);
-    devPrint(jsObjectAsMap(jsObject));
-    jPageElement = new JPageElement(jsObject)..page();
+    print('SimplePage created');
+  
   }
 
-  ready() {
-    print('ready');
-  }
+//  ready() {
+//    print('SimplePage ready');
+//  }
   attached() {
-    print('attached');
+    
+    print('SimplePage attached');
     super.attached();
-
-    // switch ot it
-    JPageChangeOptions options = new JPageChangeOptions(transition: 'none', changeHash: true);
-    print(options);
-    jQueryMobilePageContainer.changeTo(jPageElement, options);
-    //print($['simple'].innerHtml);
-    print('changed');
+//
+    JsObject jsObject = jq.queryElement($['simple']);
+      //devPrint(jsObjectAsMap(jsObject));
+      jPageElement = new JPageElement(jsObject)..page();
+//    // switch ot it
+//    JPageChangeOptions options = new JPageChangeOptions(transition: 'none', changeHash: true);
+//    print(options);
+//    jQueryMobilePageContainer.changeTo(jPageElement, options);
+//    //print($['simple'].innerHtml);
+//    print('changed');
+      
+      JqmPageContainer container = findPageContainer(parent);
+      if (container != null) {
+        container.onChildrenAttached();
+        
+      }
 
   }
   //This enables the bootstrap javascript to see the elements

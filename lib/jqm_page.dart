@@ -1,13 +1,14 @@
 import 'package:polymer/polymer.dart';
 import 'dart:html';
 
-//import 'package:tekartik_jqm/jquerymobile.dart';
-// import 'package:tekartik_jquery/jquery.dart' as jq;
+import 'package:tekartik_utils/dev_utils.dart';
+import 'package:tekartik_utils/polymer_utils.dart';
+
 /**
  * A Polymer click counter element.
  */
 @CustomTag('jqm-page')
-class JqmPage extends PolymerElement {
+class JqmPage extends PolymerElement  with NoShadowDom {
   JqmPage.created() : super.created() {
     print('created');
   }

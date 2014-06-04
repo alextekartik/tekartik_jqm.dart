@@ -1,19 +1,56 @@
 part of tekartik_jquerymobile;
 
 class JPageContainer extends JObjectElement {
+  // For documents
+  static final String PAGE_BEFORE_CHANGE = 'pagebeforechange';
+
   JPageContainer(jsPageContainer) : super(jsPageContainer);
+
+  String get activePageId {
+    return _callPageContainer(['getActivePage'])['id'];
+  }
+
+  JPageElement get activePage {
+    return new JPageElement(_callPageContainer(['getActivePage'])['id']);
+  }
 
   _callPageContainer(List args) {
     return jsObject.callMethod('pagecontainer', args);
   }
 
-  changeTo(JPageElement jPageElement, [JPageChangeOptions options]) {
+  _changeTo(dynamic target, [JPageChangeOptions options]) {
     JsObject jsOptions;
     if (options != null) {
       jsOptions = new JsObject.jsify(options.toMap());
     }
+    devPrint(jsObjectOrAnyToDebugString(target));
 
-    _callPageContainer(['change', jPageElement.jsObject, jsOptions]);
+    _callPageContainer(['change', target, jsOptions]);
+  }
+  changeTo(JPageElement jPageElement, [JPageChangeOptions options]) {
+    _changeTo(jPageElement.jsObject, options);
+  }
+
+  Stream<JPageBeforeChangeEvent> get onBeforeChange {
+    StreamController<JPageBeforeChangeEvent> controller = new StreamController(sync: true);
+
+    jsObject.callMethod('on', [PAGE_BEFORE_CHANGE, (event_, ui) {
+        //devPrint("1onBeforeChange toPage: ${ui['toPage']}");
+        //  pageContainer.activePage
+        //devPrint('beforeChange1');
+        JPageBeforeChangeEvent event = new JPageBeforeChangeEvent(event_, ui);
+        controller.add(event);
+        //devPrint('beforeChange2');
+        //devPrint("2onBeforeChange toPage: ${ui['toPage']}");
+      }]);
+    return controller.stream;
+  }
+
+  void changeToElement(Element page, [JPageChangeOptions options]) {
+    _changeTo(queryElement(page), options);
+  }
+  void changeToPageId(String pageId, [JPageChangeOptions options]) {
+    _changeTo('#${pageId}', options);
   }
 }
 
