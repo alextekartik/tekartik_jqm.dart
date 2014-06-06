@@ -9,6 +9,9 @@ import 'package:tekartik_utils/dev_utils.dart';
 import 'package:tekartik_utils/js_utils.dart';
 import 'package:tekartik_utils/polymer_utils.dart';
 
+// Depending on whether the child is create first (dartium) or second (js)
+bool firstPageShown = false;
+
 JqmPageContainer findPageContainer(Element element) {
   if (element is JqmPageContainer) {
     return element;
@@ -23,19 +26,21 @@ JqmPageContainer findPageContainer(Element element) {
 //import 'package:tekartik_jqm/jquerymobile.dart';
 // import 'package:tekartik_jquery/jquery.dart' as jq;
 /**
- * A Polymer click counter element.
+ * A Polymer jquerymobile pagecontainer element (for now fake)
  */
 @CustomTag('jqm-pagecontainer')
 class JqmPageContainer extends PolymerElement with NoShadowDom {
+  //Future get whenAttached =>
   JqmPageContainer.created() : super.created() {
     devPrint('jqm-pagecontainer created');
+
   }
 
   String get activePageId {
     return jPageContainer.activePageId;
   }
   // polymer element
-  //Map<String, Element> pages = new Map();
+  Map<String, Element> pages = new Map();
   JPageContainer jPageContainer = jQueryMobilePageContainer;
 
   changeTo(String pageId, [JPageChangeOptions options]) {
@@ -59,6 +64,21 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
     devPrint('jqm-pagecontainer attached');
     super.attached();
 
+
+    // This is for javascript where pages are loaded later...
+    on[JQM_PAGE_ATTACHED_EVENT_TYPE].listen((CustomEvent e) {
+      print(JQM_PAGE_ATTACHED_EVENT_TYPE);
+      print(e);
+      print(e.detail);
+      JqmPage jqmPage = e.detail;
+      if (jqmPage != null) {
+         String id = jqmPage.id;
+         pages[id] = jqmPage;
+        
+        _goFirstPage();
+      }
+    });
+
     jPageContainer.onBeforeChange.listen((JPageBeforeChangeEvent event) {
       //try {
       try {
@@ -68,20 +88,21 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
         String toPage = event.toPageAsString;
 
         if (event.jToPage == null) {
-          // If not element was passed try to find it
-          if (toPageId == null) {
-            print('null page id for ${toPageId}');
-            event.preventDefault();
-            return;
-          }
-          Element page = $[toPageId];
-          if (page == null) {
-            print('Could not find page id $toPageId\nfor event $event\n$this');
-            event.preventDefault();
-          } else {
-            jPageContainer.changeToElement(page, event.options);
-          }
-          devPrint("toPage: $toPage '$toPageId'");
+//          // If not element was passed try to find it
+//          if (toPageId == null) {
+//            print('null page id for ${toPageId}');
+//            event.preventDefault();
+//            return;
+//          }
+//          // find patch in main map
+//          Element page = pages[toPageId];
+//          if (page == null) {
+//            print('Could not find page id $toPageId\nfor event $event\n$this');
+//            event.preventDefault();
+//          } else {
+//            jPageContainer.changeToElement(page, event.options);
+//          }
+//          devPrint("toPage: $toPage '$toPageId'");
         } else {
           devPrint(jsRuntimeType(event.jToPage.jsObject));
         }
@@ -131,12 +152,26 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
     });
 
     try {
-      devPrint($.keys);
-      if ($.keys.isNotEmpty) {
-        String firstPageId = $.keys.first;
+      pages.addAll($);
+      _goFirstPage();
+    } catch (e, st) {
+      print('Exception $e $st');
+    }
+
+  }
+
+  void _goFirstPage() {
+    if (!firstPageShown) {
+      devPrint("pages:${pages}");
+      devPrint("keys:${$.keys}");
+      //devPrint(innerHtml);
+      // if ($.keys.isNotEmpty) {
+      if (pages.isNotEmpty) {
+        String firstPageId = pages.keys.first;
 
         devPrint('active page id: ${activePageId}');
         if (activePageId == null) {
+          firstPageShown = true;
 
 
           //var jPageElement = new JPageElement(jq.queryElement($['simple']));
@@ -152,16 +187,13 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
 
 
       }
-    } catch (e, st) {
-      print('Exception $e $st');
     }
-
   }
-
   void onChildrenAttached() {
-    devPrint('onChildrenAttached');
+    devPrint('_onChildrenAttached');
+    _goFirstPage();
   }
-  
+
   attributeChanged(String name, String oldValue, String newValue) {
     devPrint('$name=$newValue');
     super.attributeChanged(name, oldValue, newValue);

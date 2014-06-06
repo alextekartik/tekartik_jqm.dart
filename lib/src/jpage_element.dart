@@ -1,6 +1,6 @@
 part of tekartik_jquerymobile;
 
-class JPageElement extends JObjectElement {
+class JPageElement extends JElement {
   JPageElement(jsObject) : super(jsObject);
   void page() {
     //devPrint(document.body.innerHtml);

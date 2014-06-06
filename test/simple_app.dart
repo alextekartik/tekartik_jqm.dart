@@ -5,6 +5,7 @@ import 'dart:html';
 
 import 'package:tekartik_jqm/jquerymobile.dart';
 import 'package:tekartik_jqm/jqm_app.dart' show JqmApp;
+import 'package:tekartik_jqm/jqm_page.dart';
 import 'package:tekartik_utils/js_utils.dart';
 import 'package:tekartik_utils/dev_utils.dart';
 import 'package:tekartik_utils/polymer_utils.dart';
@@ -34,5 +35,7 @@ class SimpleApp extends JqmApp {
 //  
     
     print($['simple']);
+    
+   
   }
 }
