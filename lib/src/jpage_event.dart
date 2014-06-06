@@ -10,6 +10,7 @@ class JqmPageEvent extends JqmEvent {
   }
   JqmPageEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
   dynamic get toPage => _jqmData['toPage'];
+  dynamic get prevPage => _jqmData['prevPage']; // valid for before show
   @override
   String toString() {
     return "to:${toPageAsString} ${super.toString()}";
@@ -46,6 +47,26 @@ class JqmPageEvent extends JqmEvent {
     return id;
   }
 }
+
+// nextPage is valid
+class JPageBeforeHideEvent extends JqmPageEvent {
+  JPageBeforeHideEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
+  dynamic get nextPage => _jqmData['nextPage']; // valid for before show
+}
+
+// prevPage is valid
+class JPageBeforeShowEvent extends JqmPageEvent {
+  JPageBeforeShowEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
+}
+
+class JPageShowEvent extends JqmPageEvent {
+  JPageShowEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
+}
+
+class JPageHideEvent extends JqmPageEvent {
+  JPageHideEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
+}
+
 
 class JPageBeforeChangeEvent extends JqmPageEvent {
   JPageChangeOptions _options;

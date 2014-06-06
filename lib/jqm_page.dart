@@ -11,45 +11,70 @@ import 'package:tekartik_jqm/jquerymobile.dart';
 // the detail is the PolymerElement element (typically a JqmPage)
 const String JQM_PAGE_ATTACHED_EVENT_TYPE = "tekartik_jqm_page_attached";
 
-JPageElement findJPageElement(Polymer top) {
-  //JsObject jsObject = jq.jElement(firstChild as Element).jsObject;//jElement(querjq.queryElement($['simple']);
-  devPrint('########${top.innerHtml}');
-  Element jqmPageElement = top.querySelector('[data-role="page"]');
-  devPrint('YES${jqmPageElement}');
-  if (jqmPageElement == null) {
-    return null;
-  }
-  JPageElement jPageElement = new JPageElement(jElement(jqmPageElement).jsObject);
-  devPrint('YES${jqmPageElement}');
-  return jPageElement;
-}
+const String DATA_ROLE_PAGE = r'page';
+
+//JPageElement findJPageElement(Polymer top) {
+//  //JsObject jsObject = jq.jElement(firstChild as Element).jsObject;//jElement(querjq.queryElement($['simple']);
+//  Element jqmPageElement = top.querySelector('[data-role="page"]');
+//  devPrint('YES${jqmPageElement}');
+//  if (jqmPageElement == null) {
+//    return null;
+//  }
+//  JPageElement jPageElement = new JPageElement(jElement(jqmPageElement).jsObject);
+//  devPrint('YES${jqmPageElement}');
+//  return jPageElement;
+//}
 
 //devPrint(jsObjectAsMap(jsObject));
+
+abstract class PageHandleOnShow {
+  void onShow();
+}
+
+abstract class PageHandleOnBeforeShow {
+  void onBeforeShow();
+}
+
+abstract class PageHandleOnBeforeHide {
+  void onBeforeHide();
+}
+
+abstract class PageHandleOnHide {
+  void onHide();
+}
 
 /**
  * A Polymer click counter element.
  */
 @CustomTag('jqm-page')
 class JqmPage extends PolymerElement {
+
+  /**
+   * smart id getter
+   * can get from polymer element or from container
+   */
   String get id {
     if (super.id != null && super.id.isNotEmpty) {
       return super.id;
+    } else if (jPageElement != null) {
+      return jPageElement.id;
     }
-    return jPageElement.id;
+    return super.id;
   }
+
   JPageElement jPageElement;
   JqmPage.created() : super.created() {
     print('created');
   }
 
-//  //This enables the bootstrap javascript to see the elements
-//  @override
-//  Node shadowFromTemplate(Element template) {
-//    var dom = instanceTemplate(template);
-//    append(dom);
-//    shadowRootReady(this, template);
-//    return null; // no shadow here, it's all bright and shiny
-//  }
+  //  //This enables the bootstrap javascript to see the elements
+  //  @override
+  //  Node shadowFromTemplate(Element template) {
+  //    var dom = instanceTemplate(template);
+  //    append(dom);
+  //    shadowRootReady(this, template);
+  //    return null; // no shadow here, it's all bright and shiny
+  //  }
 
   @override
   attached() {
@@ -63,15 +88,30 @@ class JqmPage extends PolymerElement {
     //  devPrint('### $jqmPageElement');
     // detached content right away
     Element pageElement = shadowRoot.querySelector('[data-role="page"]');
+
+    // if not found create it
+    if (pageElement == null) {
+      // search in content also
+      pageElement = this.querySelector('[data-role="page"]');
+      if (pageElement == null) {
+        pageElement = new DivElement()
+            ..attributes[ATTR_DATA_ROLE] = DATA_ROLE_PAGE
+            ..id = id;
+        pageElement.children.addAll(shadowRoot.children);
+        pageElement.children.addAll(children);
+      }
+    }
+    // devPrint(pageElement.innerHtml);
     document.body.children.insert(0, pageElement);
+    //devPrint(document.body.innerHtml);
 
     JPageElement jPage = new JPageElement(jElement(pageElement).jsObject);
     //jPage.element.attributes['data-url'] = '#id';
     jPageElement = jPage..page();
-    
+
     // Import for js to add the page
     // This is done automatically for JqmPage object
-    asyncFire(JQM_PAGE_ATTACHED_EVENT_TYPE, detail:this);
+    asyncFire(JQM_PAGE_ATTACHED_EVENT_TYPE, detail: this);
   }
   //This enables the styling via bootstrap.css
   // bool get applyAuthorStyles => true;

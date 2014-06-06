@@ -1,0 +1,26 @@
+<link rel="import" href="packages/tekartik_jqm/jqm_page.html">
+<link rel="import" href="packages/tekartik_jqm/widget/datepicker_widget.html">
+<polymer-element name="datepicker-widget-page" extends="jqm-page">
+
+<template>
+<div id="datepicker" data-role="page">
+
+	<div data-role="header">
+		<h1>DatePicker page</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+  <form>
+  <jqm-datepicker-widget></jqm-datepicker-widget>
+  </form>
+		<p></p>
+	</div><!-- /content -->
+
+	<div data-role="footer" data-position="fixed">
+		<h4>Footer content</h4>
+	</div><!-- /footer -->
+</div><!-- /page -->
+</template>
+  <script type="application/dart" src="datepicker_widget_page.dart"></script>
+
+</polymer-element>

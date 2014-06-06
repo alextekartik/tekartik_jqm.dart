@@ -9,11 +9,11 @@ import 'package:tekartik_utils/dev_utils.dart';
 
 export 'package:tekartik_jquery/jquery.dart';
 
+part 'src/jattributes.dart';
 part 'src/jpage_element.dart';
 part 'src/jpage_container.dart';
 part 'src/jevent.dart';
 part 'src/jpage_event.dart';
-
 
 
 class JQueryMobile {
@@ -46,3 +46,4 @@ JPageContainer get jQueryMobilePageContainer {
   }
   return _jQueryMobilePageContainer;
 }
+

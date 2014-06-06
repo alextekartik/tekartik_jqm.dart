@@ -12,45 +12,45 @@ import 'package:tekartik_jquery/jquery.dart' as jq;
 /**
  * A Polymer click counter element.
  */
-@CustomTag('simple-page')
-class SimplePage extends JqmPage with PageHandleOnBeforeShow, PageHandleOnBeforeHide, PageHandleOnShow, PageHandleOnHide {
+@CustomTag('datepicker-widget-page')
+class DatePickerWidgetPage extends JqmPage with PageHandleOnBeforeShow, PageHandleOnBeforeHide, PageHandleOnShow, PageHandleOnHide {
 
   JPageElement jPageElement;
-  SimplePage.created() : super.created() {
-    print('SimplePage created');
+  DatePickerWidgetPage.created() : super.created() {
+    print('DatePickerWidgetPage created');
 
   }
 
   @override
   void onBeforeShow() {
-    print('SimplePage.onBeforeShow');
+    print('DatePickerWidgetPage.onBeforeShow');
   }
 
   @override
   void onBeforeHide() {
-    print('SimplePage.onBeforeHide');
+    print('DatePickerWidgetPage.onBeforeHide');
   }
 
   @override
   void onShow() {
-    print('SimplePage.onShow');
+    print('DatePickerWidgetPage.onShow');
   }
 
   @override
   void onHide() {
-    print('SimplePage.onHide');
+    print('DatePickerWidgetPage.onHide');
   }
 
 
   ready() {
-    print('SimplePage ready');
+    print('DatePickerWidgetPage ready');
   }
   attached() {
     try {
 
       // id not valid before
       super.attached();
-      print("SimplePage attached id '$id'");
+      print("DatePickerWidgetPage attached id '$id'");
 
 
       //    // switch ot it
@@ -59,12 +59,6 @@ class SimplePage extends JqmPage with PageHandleOnBeforeShow, PageHandleOnBefore
       //    jQueryMobilePageContainer.changeTo(jPageElement, options);
       //    //print($['simple'].innerHtml);
       //    print('changed');
-
-      JqmPageContainer container = findPageContainer(parent);
-      if (container != null) {
-        container.onChildrenAttached();
-
-      }
 
 
     } catch (e, st) {
