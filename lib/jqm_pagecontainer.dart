@@ -175,7 +175,7 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
 
 
           //var jPageElement = new JPageElement(jq.queryElement($['simple']));
-          JPageChangeOptions options = new JPageChangeOptions(transition: 'none', changeHash: true);
+          JPageChangeOptions options = new JPageChangeOptions(transition: 'fase', changeHash: true);
           //    print(options);
           //   jQueryMobilePageContainer.changeTo(jPageElement, options);
           //         jPageContainer.onBeforeChange.listen((JPageBeforeChangeEvent event) {

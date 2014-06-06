@@ -21,20 +21,20 @@ class SimpleApp extends JqmApp {
   
   void attached() {
     super.attached();
-    // switch ot it
+//    // switch ot it
+////    JPageChangeOptions options = new JPageChangeOptions(transition: 'none', changeHash: true);
+////    print(options);
+////    jQueryMobilePageContainer.changeTo(jPageElement, options);
+////    //print($['simple'].innerHtml);
+////    print('changed');
+//    
+//    var jPageElement = new JPageElement(jq.queryElement($['simple']));
 //    JPageChangeOptions options = new JPageChangeOptions(transition: 'none', changeHash: true);
-//    print(options);
-//    jQueryMobilePageContainer.changeTo(jPageElement, options);
-//    //print($['simple'].innerHtml);
-//    print('changed');
-    
-    var jPageElement = new JPageElement(jq.queryElement($['simple']));
-    JPageChangeOptions options = new JPageChangeOptions(transition: 'none', changeHash: true);
-//    print(options);
-    jQueryMobilePageContainer.changeTo(jPageElement, options);
+////    print(options);
+//    jQueryMobilePageContainer.changeToPageId('simple'); // changeTo(jPageElement, options);
 //  
     
-    print($['simple']);
+//    print($['simple']);
     
    
   }

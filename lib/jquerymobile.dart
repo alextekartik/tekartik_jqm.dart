@@ -20,9 +20,22 @@ class JQueryMobile {
   JsObject jsObject;
   JQueryMobile(this.jsObject);
 }
-dynamic _jQueryMobile = jQuery.jsObject['mobile'];
 
-dynamic get jQueryMobile => _jQueryMobile;
+dynamic _jQueryMobile; // = jQuery.jsObject['mobile'];
+
+dynamic get jQueryMobile {
+  if (_jQueryMobile == null) {
+    if (jQuery.jsObject == null) {
+      print("jQuery not found");
+    } else {
+      _jQueryMobile = jQuery.jsObject['mobile'];
+      if (_jQueryMobile == null) {
+        print("jQueryMobile not found");
+      }
+    }
+  }
+  return _jQueryMobile;
+}
 
 JPageContainer _jQueryMobilePageContainer;
 

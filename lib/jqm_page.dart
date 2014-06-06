@@ -30,7 +30,7 @@ JPageElement findJPageElement(Polymer top) {
  * A Polymer click counter element.
  */
 @CustomTag('jqm-page')
-class JqmPage extends PolymerElement with NoShadowDom {
+class JqmPage extends PolymerElement {
   String get id {
     if (super.id != null && super.id.isNotEmpty) {
       return super.id;
@@ -42,14 +42,14 @@ class JqmPage extends PolymerElement with NoShadowDom {
     print('created');
   }
 
-  //This enables the bootstrap javascript to see the elements
-  @override
-  Node shadowFromTemplate(Element template) {
-    var dom = instanceTemplate(template);
-    append(dom);
-    shadowRootReady(this, template);
-    return null; // no shadow here, it's all bright and shiny
-  }
+//  //This enables the bootstrap javascript to see the elements
+//  @override
+//  Node shadowFromTemplate(Element template) {
+//    var dom = instanceTemplate(template);
+//    append(dom);
+//    shadowRootReady(this, template);
+//    return null; // no shadow here, it's all bright and shiny
+//  }
 
   @override
   attached() {
@@ -62,7 +62,7 @@ class JqmPage extends PolymerElement with NoShadowDom {
     //devPrint(jsObjectAsMap(jsObject));
     //  devPrint('### $jqmPageElement');
     // detached content right away
-    Element pageElement = this.querySelector('[data-role="page"]');
+    Element pageElement = shadowRoot.querySelector('[data-role="page"]');
     document.body.children.insert(0, pageElement);
 
     JPageElement jPage = new JPageElement(jElement(pageElement).jsObject);

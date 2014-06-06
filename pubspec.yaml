@@ -16,3 +16,6 @@ transformers:
     entry_points: 
     - test/one_page.html
     - test/jqm_pagecontainer_test.html
+    - test/jqm_app_test.html
+    - test/jqm_lazySapp_test.html
+    - test/jqm_demo_page_test.html

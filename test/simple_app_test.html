@@ -7,6 +7,8 @@
 <title>One page</title>
 <link rel="import" href="packages/polymer/polymer.html">
 <link rel="import" href="simple_app.html">
+<link rel="import" href="simple_page.html">
+<link rel="import" href="packages/tekartik_jqm/jqm_pagecontainer.html">
 <script type="application/dart">export 'package:polymer/init.dart';</script>
 <link rel="stylesheet"
   href="packages/tekartik_jqm_asset/jquery-mobile/1.4.2/jquery.mobile-1.4.2.min.css">
@@ -20,20 +22,21 @@
 
 <body>
   <div id="splash" data-role="page">
-    <!-- -->
-
-    <div data-role="header">
+      <div data-role="header">
       <h1>App test sample</h1>
     </div>
     <!-- /header -->
     <div role="main" class="ui-content">
       <p>loading...</p>
     </div>
-    <!-- /page -->
   </div>
 
   <!-- /page -->
-  <simple-app></simple-app>
+ <jqm-app>
+  <jqm-pagecontainer>
+  <simple-page></simple-page>
+  </jqm-pagecontainer>
+  </jqm-app>
   <!--<simple-page></simple-page>-->
 </body>
 </html>
