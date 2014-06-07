@@ -82,6 +82,7 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
       print(e.detail);
       JqmPage jqmPage = e.detail;
       if (jqmPage != null) {
+        jqmPage.enhanced();
         String id = jqmPage.id;
         pages[id] = jqmPage;
 

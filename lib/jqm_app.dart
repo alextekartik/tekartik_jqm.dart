@@ -11,6 +11,8 @@ import 'package:tekartik_jquery/jquery.dart' as jq;
 
 export 'jqm_page.dart';
 export 'jqm_pagecontainer.dart';
+export 'widget/widget.dart';
+export 'widget/pageheader_widget.dart';
 
 /**
  * A Polymer click counter element.

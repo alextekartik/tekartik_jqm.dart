@@ -2,7 +2,8 @@ library tekartik_jqm_page;
 
 import 'package:polymer/polymer.dart';
 import 'dart:html';
-
+import 'widget/widget.dart';
+import 'widget/pageheader_widget.dart';
 import 'package:tekartik_utils/dev_utils.dart';
 import 'package:tekartik_utils/polymer_utils.dart';
 import 'package:tekartik_jqm/jquerymobile.dart';
@@ -75,10 +76,26 @@ class JqmPage extends PolymerElement {
   //    shadowRootReady(this, template);
   //    return null; // no shadow here, it's all bright and shiny
   //  }
+  
+  void enhanced() {
+    jPageElement.page();
+  }
 
   @override
   attached() {
     super.attached();
+
+    // This is for javascript where pages are loaded later...
+       on[JQM_WIDGET_ATTACHED_EVENT_TYPE ].listen((CustomEvent e) {
+         print(JQM_WIDGET_ATTACHED_EVENT_TYPE);
+         print(e);
+         print(e.detail);
+         JqmWidget widget = e.detail;
+         if (widget is JqmPageHeaderWidget) {
+           widget.page();
+           
+         }
+       });
 
     //
     //JsObject jsObject = jq.jElement(firstChild as Element).jsObject;//jElement(querjq.queryElement($['simple']);
@@ -101,13 +118,15 @@ class JqmPage extends PolymerElement {
         pageElement.children.addAll(children);
       }
     }
-    // devPrint(pageElement.innerHtml);
+    devPrint(pageElement.innerHtml);
     document.body.children.insert(0, pageElement);
     //devPrint(document.body.innerHtml);
 
     JPageElement jPage = new JPageElement(jElement(pageElement).jsObject);
     //jPage.element.attributes['data-url'] = '#id';
-    jPageElement = jPage..page();
+    jPageElement = jPage;
+    
+   
 
     // Import for js to add the page
     // This is done automatically for JqmPage object
