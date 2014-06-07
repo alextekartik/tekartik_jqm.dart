@@ -10,10 +10,6 @@ import 'dart:html';
 // the detail is the PolymerElement element (typically a JqmPage)
 const String JQM_WIDGET_ATTACHED_EVENT_TYPE = "tekartik_jqm_widget_attached";
 
-devError(String msg) {
-  devPrint("ERROR $msg");
-  throw new UnsupportedError(msg);
-}
 /**
  * A Polymer click counter element.
  */
