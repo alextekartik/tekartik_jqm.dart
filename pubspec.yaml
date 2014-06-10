@@ -5,19 +5,31 @@ description: Polymer elements on jquerymobile
 dependencies:
   browser: any
   polymer: any
+  unittest: any
+  logging: any
   tekartik_jquery:
-#    path: ../tekartik_jquery.dart
     git: https://github.com/alextekartik/tekartik_jquery.dart.git
   tekartik_jqm_asset:
-#    path: ../tekartik_jqm_asset.dart
     git: https://github.com/alextekartik/tekartik_jqm_asset.dart.git
+dependency_overrides:
+  tekartik_jquery:
+    path: ../tekartik_jquery.dart
+  tekartik_utils:
+    path: ../tekartik_utils.dart
+  tekartik_jqm_asset:
+    path: ../tekartik_jqm_asset.dart
 transformers:
 - polymer:
     entry_points: 
     - test/one_page.html
     - test/jqm_pagecontainer_test.html
+    - test/jqm_pageheader_test.html
+    - test/jqm_page_test.html
+    - test/jqm_subpage_test.html
+    - test/jqm_pagecontroller_test.html
     - test/jqm_header_test.html
     - test/jqm_app_test.html
+    - test/jqm_listview_test.html
     - test/jqm_lazyapp_test.html
     - test/jqm_demo_page_test.html
     - test/jqm_inlinerawpage_test.html

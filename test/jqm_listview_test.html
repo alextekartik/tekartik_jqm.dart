@@ -7,7 +7,7 @@
 <title>One page</title>
 <link rel="import" href="packages/polymer/polymer.html">
 <link rel="import" href="simple_app.html">
-<link rel="import" href="simple_page.html">
+<link rel="import" href="test_pagewithlistview.html">
 <link rel="import" href="packages/tekartik_jqm/jqm_pagecontainer.html">
 <link rel="import" href="packages/tekartik_jqm/jqm_page.html">
 
@@ -19,17 +19,27 @@
 </head>
 
 <body>
-  
-
+  <!-- /page -->
   <jqm-pagecontainer>
-  <jqm-page  id="simple">
-    <div data-role="header">
-        <h1>One page</h1>
-      </div>
-      <div role="main" class="ui-content">
-        <p>done</p>
-      </div>
-  </jqm-page>
+  <test-pagewithlistview id="lazy"></test-pagewithlistview>
+  
+  <!--
+  <jqm-page id="listview">
+  <div data-role="header">
+      <h1>One page</h1>
+    </div>
+    <div role="main" class="ui-content">
+      <ul data-role="listview" data-inset="true">
+    <li><a href="#lazy">lazy</a></li>
+    <li><a href="#">Audi</a></li>
+    <li><a href="#">BMW</a></li>
+    <li><a href="#">Cadillac</a></li>
+    <li><a href="#">Ferrari</a></li>
+</ul>
+    </div>
+   
+    </jqm-page>
+    -->
   </jqm-pagecontainer>
 </body>
 </html>

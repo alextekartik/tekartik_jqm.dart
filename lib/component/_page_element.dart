@@ -1,4 +1,4 @@
-library tekartik_jqm_widget;
+library tekartik_jqm_widget_base;
 
 import 'package:polymer/polymer.dart';
 import 'package:tekartik_utils/dev_utils.dart';
@@ -13,31 +13,16 @@ const String JQM_WIDGET_ATTACHED_EVENT_TYPE = "tekartik_jqm_widget_attached";
 /**
  * A Polymer click counter element.
  */
-@CustomTag('jqm-widget')
-class JqmWidget extends PolymerElement with NoShadowDom {
+@CustomTag('jqm-widget-base')
+class JqmWidgetBase extends PolymerElement with NoShadowDom {
 
   //bool get applyAuthorStyles => true;
   JElement jWidgetElement;
   bool isAttached = false;
-  JqmWidget.created() : super.created() {
+  JqmWidgetBase.created() : super.created() {
     devPrint('JqmWidget.created');
   }
 
-  void replaceContentWithNodes(Element parent, List<Node> elements) {
-      Element contentElement = parent.querySelector('content');
-      if (contentElement != null) {
-        Element parent = contentElement.parent;
-        parent.insertAllBefore(elements, contentElement);
-        contentElement.remove();
-//        int index = parent.children.indexOf(contentElement);
-//        parent.children.removeAt(index);
-//        //parent.children.insertAll(index, elements);
-//        for (Element element in elements) {
-//          parent.children.insert(index++, element);
-//        }
-      }
-    }
-  
   void replaceContent(Element parent, List<Element> elements) {
     Element contentElement = parent.querySelector('content');
     if (contentElement != null) {
@@ -46,10 +31,24 @@ class JqmWidget extends PolymerElement with NoShadowDom {
       parent.children.removeAt(index);
       //parent.children.insertAll(index, elements);
       for (Element element in elements) {
+        //if (contentElement.anc)
         parent.children.insert(index++, element);
       }
     }
   }
+  
+//  void replaceContentWithNodes(Element parent, List<Node> elements) {
+//      Element contentElement = parent.querySelector('content');
+//      if (contentElement != null) {
+//        Element parent = contentElement.parent;
+//        int index = parent.children.indexOf(contentElement);
+//        parent.children.removeAt(index);
+//        //parent.children.insertAll(index, elements);
+//        for ( Node element in elements) {
+//          parent.childNodes.insert(index++, element);
+//        }
+//      }
+//    }
   onAttached() {
 
   }
@@ -71,13 +70,13 @@ class JqmWidget extends PolymerElement with NoShadowDom {
 
   @override
   attached() {
-    //devPrint(innerHtml);
+    devPrint(innerHtml);
     if (jWidgetElement == null) {
       devError("jWidgetElement must be set by parent");
     }
     isAttached = true;
     super.attached();
-    //devPrint('JqmWidget.attached');
+    devPrint('JqmWidget.attached');
     // Import for js to add the page
     // This is done automatically for JqmPage object
     asyncFire(JQM_WIDGET_ATTACHED_EVENT_TYPE, detail: this);

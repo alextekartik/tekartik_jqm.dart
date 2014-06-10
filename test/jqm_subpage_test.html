@@ -7,29 +7,34 @@
 <title>One page</title>
 <link rel="import" href="packages/polymer/polymer.html">
 <link rel="import" href="simple_app.html">
-<link rel="import" href="simple_page.html">
+<link rel="import" href="test_subpage.html">
 <link rel="import" href="packages/tekartik_jqm/jqm_pagecontainer.html">
 <link rel="import" href="packages/tekartik_jqm/jqm_page.html">
 
 <!-- jqm -->
-<link rel="stylesheet" href="packages/tekartik_jqm/css/jquerymobile.css">
+  <link rel="stylesheet" href="packages/tekartik_jqm/css/jquerymobile.css">
 <script type="application/dart">export 'package:tekartik_jqm/lazyloader.dart';</script>
 
 
 </head>
 
 <body>
-  
+<jqm-pagecontainer>
 
-  <jqm-pagecontainer>
-  <jqm-page  id="simple">
-    <div data-role="header">
-        <h1>One page</h1>
-      </div>
-      <div role="main" class="ui-content">
-        <p>done</p>
-      </div>
-  </jqm-page>
-  </jqm-pagecontainer>
+<test-subpage id="simple">     
+  <ul data-role="listview" data-inset="true">
+    <li><a href="#simple2">Simple 2</a></li>
+  </ul>
+</test-subpage>
+ <test-subpage id="simple2">
+ <p>raw inner content 2</p>
+ </test-subpage>
+</jqm-page>
+
+
+ 
+ 
+</jqm-pagecontainer>
 </body>
+
 </html>

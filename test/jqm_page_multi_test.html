@@ -4,8 +4,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>kitchen_sink</title>
+<title>One page</title>
 <link rel="import" href="packages/polymer/polymer.html">
+<link rel="import" href="simple_app.html">
+<link rel="import" href="simple_page.html">
 <link rel="import" href="packages/tekartik_jqm/jqm_pagecontainer.html">
 <link rel="import" href="packages/tekartik_jqm/jqm_page.html">
 
@@ -17,25 +19,40 @@
 </head>
 
 <body>
-  <!-- /page -->
-  <jqm-pagecontainer>
-  <!--<simple-page></simple-page>-->
-  <jqm-page id="listview">
+ 
+
+<jqm-pagecontainer>
+<jqm-page id="simple">
   <div data-role="header">
-      <h1>One page</h1>
+      <h1>Simple page</h1>
     </div>
     <div role="main" class="ui-content">
-      <div role="main" class="ui-content">
       <ul data-role="listview" data-inset="true">
-    <li><a href="#jqm_demo">Demo</a></li>
-    <li><a href="#">Audi</a></li>
-    <li><a href="#">BMW</a></li>
-    <li><a href="#">Cadillac</a></li>
-    <li><a href="#">Ferrari</a></li>
+    <li><a href="#simple">Simple again</a></li>
+    <li><a href="#simple2">Simple 2</a></li>
+  
 </ul>
+
+  </div>
+  
+</jqm-page>
+
+<jqm-page id="simple2">
+  <div data-role="header">
+      <h1>Simple 2 page</h1>
     </div>
-    </div>
-    </jqm-page>
-  </jqm-pagecontainer>
+    <div role="main" class="ui-content">
+      <ul data-role="listview" data-inset="true">
+    <li><a href="#simple">Simple again</a></li>
+    <li><a href="#simple2">Simple 2</a></li>
+  
+</ul>
+
+  </div>
+  
+</jqm-page>
+
+</jqm-pagecontainer>
 </body>
+
 </html>

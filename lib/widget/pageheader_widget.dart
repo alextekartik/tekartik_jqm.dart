@@ -1,4 +1,4 @@
-library tekartik_jqm_pageheader_widget;
+library tekartik_jqm_pageheader_widge_DEPRECATED;
 
 import 'package:tekartik_jqm/jquerymobile.dart';
 import 'package:polymer/polymer.dart';
@@ -9,6 +9,7 @@ import 'package:tekartik_jquery/jquery.dart';
 import 'widget.dart';
 import 'dart:html';
 
+
 /**
  * A Polymer click counter element.
  */
@@ -16,7 +17,7 @@ import 'dart:html';
 class JqmPageHeaderWidget extends JqmWidget {
 
   void page() {
-
+jPageElementCallEnhanceWithin(jWidgetElement);
   }
 
   JqmPageHeaderWidget.created() : super.created() {
@@ -52,6 +53,7 @@ class JqmPageHeaderWidget extends JqmWidget {
       jWidgetElement = new JElement(queryElement(headerElement));
     }
     super.attached();
+    // TODO not needed to be here, can be done before
     replaceContent(headerElement, contentElements);
 //
 //    //    //devPrint(childNodes);

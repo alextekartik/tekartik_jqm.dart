@@ -1,0 +1,13 @@
+jqm-app, jqm-pagecontainer, jqm-page {
+  display: none;
+}
+/**
+ * on lazy load we don't want ui-loader to appear
+ */
+body > .ui-loader {
+  display: none;
+}
+
+html {
+  background-color: #f9f9f9;
+}

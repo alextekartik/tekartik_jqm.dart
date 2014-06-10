@@ -9,22 +9,37 @@
 <link rel="import" href="packages/polymer/polymer.html">
 <link rel="import" href="simple_page.html">
 <link rel="import" href="jqm_lazyapp.html">
-<script type="application/dart">export 'package:polymer/init.dart';</script>
-
+<!--
  <link rel="stylesheet"
   href="packages/tekartik_jqm_asset/jquery-mobile/1.4.2/jquery.mobile-1.4.2.min.css">
 <script
   src="packages/tekartik_jqm_asset/jquery/2.1.0/jquery-2.1.0.min.js"></script>
 <script
   src="packages/tekartik_jqm_asset/jquery-mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-<script type="application/dart">export 'package:polymer/init.dart';</script>
+  -->
+  <link rel="stylesheet" href="packages/tekartik_jqm/css/jquerymobile.css">
+<script type="application/dart">export 'package:tekartik_jqm/lazyloader.dart';</script>
 
 </head>
 
 <body>
+   
+<!--
+<div id="splash" data-role="page" style="display:nofne">
+
+    <div data-role="header">
+      <h1>One page sample</h1>
+    </div>
+    <div role="main" class="ui-content">
+      <p>loading...</p>
+      <a href="#simple">Simple page</a>
+    </div>
+  </div>
+  -->
+ 
   <jqm-lazyapp>
     <jqm-pagecontainer>
-      <simple-page></simple-page>
+      <simple-page id="simple"></simple-page>
     </jqm-pagecontainer>
   </jqm-lazyapp>
    

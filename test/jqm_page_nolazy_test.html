@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One page</title>
+<link rel="import" href="packages/polymer/polymer.html">
+<link rel="import" href="simple_app.html">
+<link rel="import" href="simple_page.html">
+<link rel="import" href="packages/tekartik_jqm/jqm_pagecontainer.html">
+<link rel="import" href="packages/tekartik_jqm/jqm_page.html">
+<script type="application/dart">export 'package:polymer/init.dart';</script>
+
+<!-- jqm -->
+<link rel="stylesheet" href="packages/tekartik_jqm/css/jquerymobile.css">
+<link rel="stylesheet"
+  href="packages/tekartik_jqm_asset/jquery-mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+<script
+  src="packages/tekartik_jqm_asset/jquery/2.1.0/jquery-2.1.0.min.js"></script>
+<script
+  src="packages/tekartik_jqm_asset/jquery-mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+
+</head>
+
+<body>
+  <div id="splash" data-role="page">
+    <div data-role="header">
+      <h1>PageContainer test</h1>
+    </div>
+    <div role="main" class="ui-content">
+    <p>Simple test. You need to manually go to the
+      <a href="#simple">simple page</a>
+    </div>
+  </div>
+
+<jqm-pagecontainer>
+ <jqm-page>
+<div data-role="page" id="simple">
+  <div data-role="header">
+      <h1>Simple page</h1>
+    </div>
+    <div role="main" class="ui-content">
+      done
+  </div>
+  </div>
+</jqm-page>
+ <jqm-page>
+<div data-role="page" id="simple2">
+  <div data-role="header">
+      <h1>Simple page</h1>
+    </div>
+    <div role="main" class="ui-content">
+      done
+  </div>
+  </div>
+</jqm-page>
+</jqm-pagecontainer>
+</body>
+
+</html>

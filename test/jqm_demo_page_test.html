@@ -5,6 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>One page</title>
+<link rel="import" href="lightdom_element.html">
 <link rel="import" href="packages/polymer/polymer.html">
 <link rel="import" href="packages/tekartik_jqm/jqm_app.html">
 <link rel="import" href="packages/tekartik_jqm/demo/jqm_demo_page.html">
@@ -22,6 +23,22 @@
 <body>
   <jqm-app>
   <jqm-pagecontainer>
+  <jqm-page id="main">
+  <lightdom_element>
+    <div data-role="header">
+      <h1>Menu</h1>
+    </div>
+    <div role="main" class="ui-content">
+      <ul data-role="listview" data-inset="true">
+    <li><a href="#jqm_demo">Demo</a></li>
+    <li><a href="#">Audi</a></li>
+    <li><a href="#">BMW</a></li>
+    <li><a href="#">Cadillac</a></li>
+    <li><a href="#">Ferrari</a></li>
+</ul>
+    </div>
+    </lightdom_element>
+  </jqm-page>
   <jqm-demo-page></jqm-demo-page>
   </jqm-pagecontainer>
   </jqm-app>

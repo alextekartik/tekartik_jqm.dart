@@ -65,7 +65,7 @@ class JqmPage extends PolymerElement {
 
   JPageElement jPageElement;
   JqmPage.created() : super.created() {
-    print('created');
+    print('JqmPage.created');
   }
 
   //  //This enables the bootstrap javascript to see the elements
@@ -76,61 +76,140 @@ class JqmPage extends PolymerElement {
   //    shadowRootReady(this, template);
   //    return null; // no shadow here, it's all bright and shiny
   //  }
-  
-  void enhanced() {
+
+  void enhance() {
     jPageElement.page();
+    //jPageElement.enhanceWithin();
   }
+
+  void replaceContent(Element parent, List<Element> elements) {
+    Element contentElement = parent.querySelector('content');
+    if (contentElement != null) {
+      Element parent = contentElement.parent;
+      int index = parent.children.indexOf(contentElement);
+      parent.children.removeAt(index);
+      //parent.children.insertAll(index, elements);
+      for (Element element in elements) {
+        parent.children.insert(index++, element);
+      }
+    }
+  }
+  
+  void replaceContentWithNodes(Element parent, List<Node> elements) {
+        Element contentElement = parent.querySelector('content');
+        if (contentElement != null) {
+          Element parent = contentElement.parent;
+          parent.insertAllBefore(elements, contentElement);
+          contentElement.remove();
+//        int index = parent.children.indexOf(contentElement);
+//        parent.children.removeAt(index);
+//        //parent.children.insertAll(index, elements);
+//        for (Element element in elements) {
+//          parent.children.insert(index++, element);
+//        }
+        }
+      }
+
 
   @override
   attached() {
+  devPrint('JqmPage.attached');
     super.attached();
 
-    // This is for javascript where pages are loaded later...
-       on[JQM_WIDGET_ATTACHED_EVENT_TYPE ].listen((CustomEvent e) {
-         print(JQM_WIDGET_ATTACHED_EVENT_TYPE);
-         print(e);
-         print(e.detail);
-         JqmWidget widget = e.detail;
-         if (widget is JqmPageHeaderWidget) {
-           widget.page();
-           
-         }
-       });
 
-    //
-    //JsObject jsObject = jq.jElement(firstChild as Element).jsObject;//jElement(querjq.queryElement($['simple']);
-    //    Element jqmPageElement = querySelector(".ui-page");
-
-    //devPrint(jsObjectAsMap(jsObject));
-    //  devPrint('### $jqmPageElement');
-    // detached content right away
-    Element pageElement = shadowRoot.querySelector('[data-role="page"]');
-
-    // if not found create it
-    if (pageElement == null) {
-      // search in content also
-      pageElement = this.querySelector('[data-role="page"]');
-      if (pageElement == null) {
-        pageElement = new DivElement()
-            ..attributes[ATTR_DATA_ROLE] = DATA_ROLE_PAGE
-            ..id = id;
-        pageElement.children.addAll(shadowRoot.children);
-        pageElement.children.addAll(children);
-      }
+    if (id.isEmpty) {
+      devError("id cannot be empty");
     }
-    devPrint(pageElement.innerHtml);
-    document.body.children.insert(0, pageElement);
-    //devPrint(document.body.innerHtml);
+    //    // This is for javascript where pages are loaded later...
+    //    on[JQM_WIDGET_ATTACHED_EVENT_TYPE].listen((CustomEvent e) {
+    //      print(JQM_WIDGET_ATTACHED_EVENT_TYPE);
+    //      print(e);
+    //      print(e.detail);
+    //      JqmWidget widget = e.detail;
+    //      if (widget is JqmPageHeaderWidget) {
+    //        widget.page();
+    //
+    //      }
+    //    });
 
-    JPageElement jPage = new JPageElement(jElement(pageElement).jsObject);
-    //jPage.element.attributes['data-url'] = '#id';
-    jPageElement = jPage;
-    
-   
+    // Wait for all the changes to be made
+    Polymer.onReady.then((_) {
+        //devPrint("JqmPage: ${innerHtml}");
 
-    // Import for js to add the page
-    // This is done automatically for JqmPage object
-    asyncFire(JQM_PAGE_ATTACHED_EVENT_TYPE, detail: this);
+
+ //     Element pageElement = this.querySelector('[data-role="page"]');
+
+//      //
+//      //JsObject jsObject = jq.jElement(firstChild as Element).jsObject;//jElement(querjq.queryElement($['simple']);
+//      //    Element jqmPageElement = querySelector(".ui-page");
+//      //String content = innerHtml;
+//      //devPrint(innerHtml);
+//      //  devPrint('### $jqmPageElement');
+//      // detached content right away
+      Element pageElement = shadowRoot.querySelector('[data-role="page"]');
+
+      // if not found create it
+      if (pageElement == null) {
+        
+        //
+        // search in content also
+        pageElement = this.querySelector('[data-role="page"]');
+        if (pageElement == null) {
+         
+         
+        }
+      }
+      if (pageElement != null) {
+        devError('found date-role=page in ${outerHtml} - please remove');
+      }
+      
+      
+               pageElement = new DivElement()
+                   ..attributes[ATTR_DATA_ROLE] = DATA_ROLE_PAGE
+                   ..id = id;
+               pageElement.children.addAll(shadowRoot.children);
+               
+               replaceContent(pageElement, children);
+             
+      //devError("temp");
+      //devPrint(pageElement.innerHtml);
+
+//      // Find content
+//      List<Element> contentElements = new List();
+//      for (Element child in children) {
+//        if (child.attributes[ATTR_DATA_ROLE] == 'page') {
+//          break;
+//        }
+//        contentElements.add(child);
+//      }
+//      replaceContent(pageElement, contentElements);
+//      pageElement.id = id;
+//      // Also chage our own id
+//      // Otherwise we have 2 items with the same id
+//      // jqm 1.4.2 does not like that (jqm_page_test.html)
+//      // if the content is a direct body child
+//      if (parent == document.body) {
+//        id = "jqm-page-$id";
+//      }
+
+      //devPrint(pageElement.innerHtml);
+              // devPrint(pageElement.outerHtml);
+      document.body.children.insert(0, pageElement);
+
+
+      JPageElement jPage = new JPageElement(jElement(pageElement).jsObject);
+      //jPage.element.attributes['data-url'] = '#id';
+      jPageElement = jPage;
+
+      if (jPageElement.isEnhanced) {
+        devError("weird page is already enhanced... ${pageElement.innerHtml}");
+      }
+      enhance();
+
+      // Import for js to add the page
+      // This is done automatically for JqmPage object
+      asyncFire(JQM_PAGE_ATTACHED_EVENT_TYPE, detail: this);
+    });
   }
   //This enables the styling via bootstrap.css
   // bool get applyAuthorStyles => true;
