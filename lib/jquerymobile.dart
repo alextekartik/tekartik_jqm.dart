@@ -12,10 +12,11 @@ export 'package:tekartik_jquery/jquery.dart';
 import 'package:tekartik_utils/version.dart';
 
 part 'src/jattributes.dart';
-part 'src/jpage_element.dart';
-part 'src/jpage_container.dart';
+part 'src/jpage.dart';
+part 'src/jpagecontainer.dart';
 part 'src/jevent.dart';
 part 'src/jpage_event.dart';
+part 'src/jlistview.dart';
 
 
 class JQueryMobile {

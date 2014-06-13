@@ -9,7 +9,7 @@ jPageElementCallEnhanceWithin(JElement jElement) {
 }
 
 class JPageElement extends JElement {
-  JPageElement(jsObject) : super(jsObject);
+  JPageElement(jsElement) : super(jsElement);
   void page() {
     //devPrint("####1 " + document.body.innerHtml);
     //devPrint("## JPageElement.before page " + element.outerHtml);

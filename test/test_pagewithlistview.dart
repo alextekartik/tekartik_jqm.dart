@@ -12,24 +12,38 @@ import 'package:tekartik_jqm/jqm_page.dart';
  * A Polymer click counter element.
  */
 @CustomTag('test-pagewithlistview')
-class TestPageWithListview extends JqmPage {
+class TestPageWithListView extends JqmPage with PageHandleOnShow {
 
-  TestPageWithListview.created() : super.created() {
-    print('TestPageWithListview.created');
+  
+  TestPageWithListView.created() : super.created() {
+    print('TestPageWithListView.created');
   }
 
   @override
   attached() {
-    print('TestPageWithListview.attached');
-    devPrint($['my_ul']);
+    print('TestPageWithListView.attached');
     super.attached();
 
   }
 
   @override
   detached() {
-    print('TestPageWithListview.detached');
+    print('TestPageWithListView.detached');
     super.detached();
 
+  }
+
+  @override
+  void onShow() {
+    JListView listView = getListView('my_ul');
+    $['my_ul'].children.add(new LIElement()..innerHtml = 'dynamic');
+    $['my_ul'].children.add(new LIElement()..innerHtml = '<a href="#">with href</a>');
+    listView.element.children.clear();
+    listView.element.children.add(jListNewItem(title: 'second list', href: '#listview2'));
+    listView.element.children.add(jListNewItem(title: 'first list', href: '#listview1'));
+        
+    listView.refresh();
+        //jsElement($['my_ul']).callMethod('listview', ['refresh']);
+        
   }
 }

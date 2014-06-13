@@ -7,7 +7,7 @@ import 'widget/pageheader_widget.dart';
 import 'package:tekartik_utils/dev_utils.dart';
 import 'package:tekartik_utils/polymer_utils.dart';
 import 'package:tekartik_jqm/jquerymobile.dart';
-import 'package:tekartik_jqm/jquerymobile.dart';
+import 'package:tekartik_jquery/jquery.dart';
 
 // the detail is the PolymerElement element (typically a JqmPage)
 const String JQM_PAGE_ATTACHED_EVENT_TYPE = "tekartik_jqm_page_attached";
@@ -118,7 +118,7 @@ class JqmPage extends PolymerElement {
 
 
     if (id.isEmpty) {
-      devError("id cannot be empty");
+      devError("id cannot be empty  ${outerHtml}");
     }
     //    // This is for javascript where pages are loaded later...
     //    on[JQM_WIDGET_ATTACHED_EVENT_TYPE].listen((CustomEvent e) {
@@ -237,4 +237,17 @@ class JqmPage extends PolymerElement {
     //            }
     //          }
   }
+  
+  /**
+   * null if not found
+   */
+  Element find(String selector) {
+    return jPageElement.element.querySelector(selector); 
+  }
+
+  /**
+   * Get by id
+   */
+  JListView getListView(String id) => new JListView.fromElement($[id]);
+  JListView findListView(String selector) => new JListView.fromElement(find(selector));
 }
