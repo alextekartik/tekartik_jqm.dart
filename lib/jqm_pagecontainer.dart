@@ -5,6 +5,7 @@ import 'dart:html';
 import 'jqm_page.dart';
 import 'package:tekartik_jqm/jquerymobile.dart';
 
+import 'package:logging/logging.dart';
 import 'package:tekartik_utils/dev_utils.dart';
 import 'package:tekartik_utils/js_utils.dart';
 import 'package:tekartik_utils/polymer_utils.dart';
@@ -36,6 +37,8 @@ JqmPageContainer findPageContainer(Element element) {
  */
 @CustomTag('jqm-pagecontainer')
 class JqmPageContainer extends PolymerElement with NoShadowDom {
+  Logger log = new Logger("tekartik_jqm_pagecontainer");
+  
   //Future get whenAttached =>
   JqmPageContainer.created() : super.created() {
     devPrint('jqm-pagecontainer created');
@@ -77,15 +80,16 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
 
     // This is for javascript where pages are loaded later...
     on[JQM_PAGE_ATTACHED_EVENT_TYPE].listen((CustomEvent e) {
-      print(JQM_PAGE_ATTACHED_EVENT_TYPE);
-      print(e);
-      print(e.detail);
+      log.fine(JQM_PAGE_ATTACHED_EVENT_TYPE + " $e ${e.detail}");
+      //print(e);
+      //print(e.detail);
       JqmPage jqmPage = e.detail;
       if (jqmPage != null) {
         //jqmPage.enhance();
         String id = jqmPage.id;
         pages[id] = jqmPage;
 
+        log.fine("page $id");
         _goFirstPage();
       }
     });
@@ -222,12 +226,19 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
           devPrint('Polymer.onReady');
           firstPageShown = true;
 
-          devPrint("pages:${pages}");
+          
+          // find first
+          log.fine("pages:${pages}");
           devPrint("keys:${$.keys}");
           //devPrint(innerHtml);
           // if ($.keys.isNotEmpty) {
           if (pages.isNotEmpty) {
-            firstPageId = pages.keys.first;
+            // firstPageId = pages.keys.first;
+            
+            // Find the first page
+            // if not specified anywhere
+            firstPageId = children.first.id;
+                      
 
             devPrint('active page id: ${activePageId} first: $firstPageId');
 
@@ -274,3 +285,4 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
     return 'page container: active $activePageId';
   }
 }
+

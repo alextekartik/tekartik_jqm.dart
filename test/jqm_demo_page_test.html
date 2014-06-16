@@ -8,8 +8,17 @@
 <link rel="import" href="lightdom_element.html">
 <link rel="import" href="packages/polymer/polymer.html">
 <link rel="import" href="packages/tekartik_jqm/jqm_app.html">
-<link rel="import" href="packages/tekartik_jqm/demo/jqm_demo_page.html">
-<script type="application/dart">export 'package:polymer/init.dart';</script>
+<link rel="import" href="../example/demo/jqm_demo_page.html">
+<link rel="import" href="../example/template/main_page.html">
+<script type="application/dart">
+import 'package:polymer/init.dart' as init;
+import 'package:tekartik_utils/log_utils.dart';
+
+main() {
+  debugQuickLogging(Level.FINEST);
+  init.main();
+}
+</script>
 <link rel="stylesheet"
   href="packages/tekartik_jqm_asset/jquery-mobile/1.4.2/jquery.mobile-1.4.2.min.css">
 <script
@@ -23,7 +32,7 @@
 <body>
   <jqm-app>
   <jqm-pagecontainer>
-  <jqm-page id="main">
+  <jqm-page id="menu">
   <lightdom_element>
     <div data-role="header">
       <h1>Menu</h1>
@@ -31,7 +40,7 @@
     <div role="main" class="ui-content">
       <ul data-role="listview" data-inset="true">
     <li><a href="#jqm_demo">Demo</a></li>
-    <li><a href="#">Audi</a></li>
+    <li><a href="#template_main">template main</a></li>
     <li><a href="#">BMW</a></li>
     <li><a href="#">Cadillac</a></li>
     <li><a href="#">Ferrari</a></li>
@@ -39,6 +48,7 @@
     </div>
     </lightdom_element>
   </jqm-page>
+    <main-page id="template_main"></main-page>
   <jqm-demo-page></jqm-demo-page>
   </jqm-pagecontainer>
   </jqm-app>

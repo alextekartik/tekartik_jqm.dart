@@ -4,6 +4,8 @@ import 'package:polymer/polymer.dart';
 import 'dart:html';
 import 'widget/widget.dart';
 import 'widget/pageheader_widget.dart';
+import 'package:logging/logging.dart';
+
 import 'package:tekartik_utils/dev_utils.dart';
 import 'package:tekartik_utils/polymer_utils.dart';
 import 'package:tekartik_jqm/jquerymobile.dart';
@@ -50,6 +52,9 @@ abstract class PageHandleOnHide {
 @CustomTag('jqm-page')
 class JqmPage extends PolymerElement {
 
+  static String TAG_NAME = "jqm-page";
+  static Logger log = new Logger("tekartik_jqm_page");
+  
   /**
    * smart id getter
    * can get from polymer element or from container
@@ -65,7 +70,7 @@ class JqmPage extends PolymerElement {
 
   JPageElement jPageElement;
   JqmPage.created() : super.created() {
-    print('JqmPage.created');
+    log.finest('created $id');
   }
 
   //  //This enables the bootstrap javascript to see the elements
@@ -113,7 +118,7 @@ class JqmPage extends PolymerElement {
 
   @override
   attached() {
-  devPrint('JqmPage.attached');
+    log.finest('JqmPage.attached $id');
     super.attached();
 
 
