@@ -17,6 +17,7 @@ part 'src/jpagecontainer.dart';
 part 'src/jevent.dart';
 part 'src/jpage_event.dart';
 part 'src/jbutton.dart';
+part 'src/jslider.dart';
 part 'src/jlistview.dart';
 
 

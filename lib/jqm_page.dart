@@ -172,6 +172,10 @@ class JqmPage extends PolymerElement {
                pageElement = new DivElement()
                    ..attributes[ATTR_DATA_ROLE] = DATA_ROLE_PAGE
                    ..id = id;
+               String theme = attributes[ATTR_DATA_THEME];
+               if (theme != null) {
+                 pageElement.attributes[ATTR_DATA_THEME] = theme;
+               }
                pageElement.children.addAll(shadowRoot.children);
                
                replaceContent(pageElement, children);

@@ -30,6 +30,7 @@ class JButton extends JElement {
   void disable() {
     _callButtonMethod(['disable']);
   }
+
   //
   //  bool get isEnhanced {
   //    /**
