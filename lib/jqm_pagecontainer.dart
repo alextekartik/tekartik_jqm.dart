@@ -72,6 +72,20 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
     super.ready();
   }
 
+  _initPages() {
+    if (pages.isEmpty) {
+      children.forEach((child) {
+        devPrint("$child ${child.runtimeType}");
+        if (child is JqmPage) {
+          if (child.id.isEmpty) {
+            devError("no id found for page ${child.outerHtml} in ${outerHtml}");
+          } else {
+            pages[child.id] = child;
+          }
+        }
+      });
+    }
+  }
   @override
   attached() {
     devPrint('jqm-pagecontainer attached');
@@ -80,17 +94,22 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
 
     // This is for javascript where pages are loaded later...
     on[JQM_PAGE_ATTACHED_EVENT_TYPE].listen((CustomEvent e) {
-      log.fine(JQM_PAGE_ATTACHED_EVENT_TYPE + " $e ${e.detail}");
+      
       //print(e);
       //print(e.detail);
       JqmPage jqmPage = e.detail;
       if (jqmPage != null) {
+        _initPages();
         //jqmPage.enhance();
         String id = jqmPage.id;
+        
         pages[id] = jqmPage;
-
-        log.fine("page $id");
+        log.fine(JQM_PAGE_ATTACHED_EVENT_TYPE + " $id $e ${e.detail} ${pages}");
+                
+        // log.fine("page $id");
         _goFirstPage();
+      } else {
+        log.fine(JQM_PAGE_ATTACHED_EVENT_TYPE + " $e ${e.detail}");
       }
     });
 

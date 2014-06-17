@@ -16,7 +16,7 @@ import 'package:tekartik_jquery/jquery.dart' as jq;
 @CustomTag('main-page')
 class MainPage extends JqmPage with PageHandleOnBeforeShow, PageHandleOnBeforeHide, PageHandleOnShow, PageHandleOnHide {
 
-  Logger log = new Logger('MainPage');
+  static Logger log = new Logger('MainPage');
 
   MainPage.created() : super.created() {
     log.fine('created');
