@@ -11,3 +11,7 @@ body > .ui-loader {
 html {
   background-color: #f9f9f9;
 }
+
+div[data-role="page"] {
+  display: none;
+}

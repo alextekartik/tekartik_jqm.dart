@@ -7,7 +7,7 @@ import 'package:tekartik_jquery/jquery.dart';
 import 'package:tekartik_utils/js_utils.dart';
 import 'package:tekartik_utils/dev_utils.dart';
 
-export 'package:tekartik_jquery/jquery.dart';
+//export 'package:tekartik_jquery/jquery.dart';
 
 import 'package:tekartik_utils/version.dart';
 
@@ -24,10 +24,10 @@ part 'src/jlistview.dart';
 class JQueryMobile {
   JsObject jsObject;
   JQueryMobile(this.jsObject);
-  
+
   String get _jsVersion => jsObject['version'];
   JsObject get _jsPageContainer => jsObject['pageContainer'];
-  
+
   Version _version;
   Version get version {
     if (_version == null) {
@@ -38,6 +38,12 @@ class JQueryMobile {
 }
 
 JsObject get _jsQueryMobile => jQuery.jsObject['mobile'];
+
+/**
+ * raw jQueryMobile object check if jQuery is loaded first
+ * and this allow to know if jQueryMobile is loaded
+ */
+JsObject get jsQueryMobile => _jsQueryMobile;
 
 JQueryMobile _jQueryMobile; // = jQuery.jsObject['mobile'];
 
@@ -52,10 +58,10 @@ JQueryMobile get jQueryMobile {
       devError("Missing jQueryMobile");
     }
     // test version
-     Version versionMin = new Version(1, 4, 2);
-     if (_jQueryMobile.version < versionMin) {
-       devError("jquerymobile: invalid jQueryMobile version '${_jQueryMobile.version}' expected min $versionMin");
-     }
+    Version versionMin = new Version(1, 4, 2);
+    if (_jQueryMobile.version < versionMin) {
+      devError("jquerymobile: invalid jQueryMobile version '${_jQueryMobile.version}' expected min $versionMin");
+    }
   }
   return _jQueryMobile;
 }
@@ -69,4 +75,3 @@ JPageContainer get jQueryMobilePageContainer {
   }
   return _jQueryMobilePageContainer;
 }
-

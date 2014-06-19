@@ -1,35 +1,46 @@
+library tekartik_jquerymobile_loader;
+
 import 'package:tekartik_utils/css_utils.dart';
 import 'package:tekartik_utils/js_utils.dart';
 import 'package:tekartik_utils/dev_utils.dart';
 import 'package:tekartik_utils/version.dart';
 import 'package:tekartik_jquery/jquery.dart';
+import 'package:tekartik_jquery/jquery_loader.dart';
 import 'package:tekartik_jqm/jquerymobile.dart';
 import 'dart:async';
-import 'dart:html';
 
-// Polymer lazyloader
+Version get JQUERYMOBILE_DEFAULT_VERSION => new Version(1, 4, 2);
 
-Future loadJqueryMobile() {
-  Version jqmVersion = new Version(1, 4, 2);
-  Version jqVersion = new Version(2, 1, 0);
+Future<JQueryMobile> loadJQueryMobile({Version version, Version jqueryVersion, void onMobileInit()}) {
+  if (version == null) {
+    version = JQUERYMOBILE_DEFAULT_VERSION;
+  }
+
+  if (jsQuery != null) {
+    // already loaded?
+    if (jsQueryMobile != null) {
+      if (jQueryMobile.version < version) {
+        devError("jQueryMobile version expected $version but currently loaded is ${jQueryMobile.version}");
+      }
+      return new Future.value(jQueryMobile);
+    }
+  }
+
   // load css
-  return loadStylesheet('packages/tekartik_jqm_asset/jquery-mobile/$jqmVersion/jquery.mobile-$jqmVersion.min.css').then((_) {
-    // load jquery
-    return loadJavascriptScript("packages/tekartik_jquery_asset/jquery/$jqVersion/jquery-$jqVersion.min.js");
+  return loadStylesheet('packages/tekartik_jqm_asset/jquery-mobile/$version/jquery.mobile-$version.min.css').then((_) {
+    // load jquery if needed
+    return loadJQuery(version: jqueryVersion);
+
   }).then((_) {
     //devPrint(jQuery.version);
-    jsDocument.callMethod('on', ["mobileinit", (event_) {
-        //onBeforeCreate();
-        //devPrint('mobileinit $event_');
-        //devPrint('beforeShow2');
-      }]);
+    if (onMobileInit != null) {
+      jsDocument.callMethod('on', ["mobileinit", (event_) {
+          onMobileInit();
+        }]);
+    }
     // load jquery_mobile
-    return loadJavascriptScript("packages/tekartik_jqm_asset/jquery-mobile/$jqmVersion/jquery.mobile-$jqmVersion.min.js");
+    return loadJavascriptScript("packages/tekartik_jqm_asset/jquery-mobile/$version/jquery.mobile-$version.min.js");
   }).then((_) {
-    //devPrint(jQueryMobile.version);
-    //jElement(document.body)
-
-    devPrint("done loading css");
-
+    return jQueryMobile;
   });
 }
