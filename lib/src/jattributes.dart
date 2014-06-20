@@ -7,6 +7,12 @@ const String ATTR_DATA_ROLE = r"data-role";
 const String ATTR_DATA_INSET = r"data-inset";
 const String ATTR_DATA_THEME = r"data-theme";
 
+// Page
+const String ROLE_PAGE = r"page";
+
+// Header
+const String ROLE_HEADER = r"header";
+
 // List
 const String ROLE_LISTVIEW = r"listview";
 

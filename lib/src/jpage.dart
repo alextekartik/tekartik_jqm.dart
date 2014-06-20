@@ -8,6 +8,34 @@ jPageElementCallEnhanceWithin(JElement jElement) {
   jElement.callMethod('enhanceWithin');
 }
 
+DivElement jNewPageElement(String id) {
+  DivElement element = new DivElement()
+      ..id = id
+      ..attributes[ATTR_DATA_ROLE] = ROLE_PAGE;
+  return element;
+}
+
+DivElement jNewPageHeaderElement({String title}) {
+  HeadingElement h1 = new HeadingElement.h1()..setInnerHtml(title);
+  DivElement element = new DivElement()
+      ..attributes[ATTR_DATA_ROLE] = ROLE_HEADER
+      ..children.add(h1);
+  return element;
+}
+
+class JPage extends JElement {
+  factory JPage.fromElement(Element element) {
+    if (element == null) {
+      return null;
+    }
+    return new JPage(jsElement(element));
+  }
+
+  JPage(jsObject) : super(jsObject);
+}
+
+
+@deprecated // use JPage instead
 class JPageElement extends JElement {
   JPageElement(jsElement) : super(jsElement);
   void page() {
@@ -17,11 +45,11 @@ class JPageElement extends JElement {
     //devPrint("## JPageElement.after page " + element.outerHtml);
   }
   void enhanceWithin() {
-      //devPrint("####2 " + document.body.innerHtml);
-      jsObject.callMethod('enhanceWithin');
-    }
-  
-  
+    //devPrint("####2 " + document.body.innerHtml);
+    jsObject.callMethod('enhanceWithin');
+  }
+
+
   bool get isEnhanced {
     // Before
     //  <div data-role="page" id="simple"><div data-role="header" role="banner" class="ui-header ui-bar-inherit">h1 class="ui-title" role="heading" aria-level="1">Simple page</h1>  </div><div role="main" class="ui-content"    done</div></div>
@@ -30,6 +58,6 @@ class JPageElement extends JElement {
     return element.classes.contains("ui-page");
   }
   void show() {
-    
+
   }
 }

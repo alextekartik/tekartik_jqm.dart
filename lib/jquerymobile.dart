@@ -6,6 +6,7 @@ import 'dart:html';
 import 'package:tekartik_jquery/jquery.dart';
 import 'package:tekartik_utils/js_utils.dart';
 import 'package:tekartik_utils/dev_utils.dart';
+import 'package:tekartik_utils/string_enum.dart';
 
 //export 'package:tekartik_jquery/jquery.dart';
 
@@ -19,6 +20,9 @@ part 'src/jpage_event.dart';
 part 'src/jbutton.dart';
 part 'src/jslider.dart';
 part 'src/jlistview.dart';
+part 'src/jtransition.dart';
+
+
 
 
 class JQueryMobile {
@@ -26,7 +30,7 @@ class JQueryMobile {
   JQueryMobile(this.jsObject);
 
   String get _jsVersion => jsObject['version'];
-  JsObject get _jsPageContainer => jsObject['pageContainer'];
+  JsObject get jsPageContainer => jsObject['pageContainer'];
 
   Version _version;
   Version get version {
@@ -70,8 +74,9 @@ JPageContainer _jQueryMobilePageContainer;
 
 JPageContainer get jQueryMobilePageContainer {
   if (_jQueryMobilePageContainer == null) {
-    JsObject jsPageContainer = jQueryMobile._jsPageContainer;
+    JsObject jsPageContainer = jQueryMobile.jsPageContainer;
     _jQueryMobilePageContainer = new JPageContainer(jsPageContainer);
   }
+  //devPrint(_jQueryMobilePageContainer);
   return _jQueryMobilePageContainer;
 }

@@ -1,9 +1,9 @@
 part of tekartik_jquerymobile;
 
-class JPageContainer extends JObjectElement {
+class JPageContainer extends JElement {
   // For documents
   static final String PAGE_BEFORE_CHANGE = 'pagebeforechange';
-  
+
   static final String PAGE_BEFORE_SHOW = 'pagecontainerbeforeshow';
   static final String PAGE_SHOW = 'pagecontainershow';
   static final String PAGE_BEFORE_HIDE = 'pagecontainerbeforehide';
@@ -15,8 +15,8 @@ class JPageContainer extends JObjectElement {
     return _callPageContainer(['getActivePage'])['id'];
   }
 
-  JPageElement get activePage {
-    return new JPageElement(_callPageContainer(['getActivePage'])['id']);
+  JPage get activePage {
+    return new JPage(_callPageContainer(['getActivePage'])['id']);
   }
 
   _callPageContainer(List args) {
@@ -48,18 +48,18 @@ class JPageContainer extends JObjectElement {
       }]);
     return controller.stream;
   }
-  
-  Stream<JPageShowEvent> get onShow {
-      StreamController<JPageShowEvent> controller = new StreamController(sync: true);
 
-      jsObject.callMethod('on', [PAGE_SHOW, (event_, ui_) {
-          //onBeforeCreate();
-          devPrint('show $ui_');
-          JPageShowEvent event = new JPageShowEvent(event_, ui_);
-          controller.add(event);
-        }]);
-      return controller.stream;
-    }
+  Stream<JPageShowEvent> get onShow {
+    StreamController<JPageShowEvent> controller = new StreamController(sync: true);
+
+    jsObject.callMethod('on', [PAGE_SHOW, (event_, ui_) {
+        //onBeforeCreate();
+        devPrint('show $ui_');
+        JPageShowEvent event = new JPageShowEvent(event_, ui_);
+        controller.add(event);
+      }]);
+    return controller.stream;
+  }
 
   Stream<JPageBeforeHideEvent> get onBeforeHide {
     StreamController<JPageBeforeHideEvent> controller = new StreamController(sync: true);
@@ -73,18 +73,18 @@ class JPageContainer extends JObjectElement {
       }]);
     return controller.stream;
   }
-  
-  Stream<JPageHideEvent> get onHide {
-        StreamController<JPageHideEvent> controller = new StreamController(sync: true);
 
-        jsObject.callMethod('on', [PAGE_HIDE, (event_, ui_) {
-            //onBeforeCreate();
-            devPrint('show $ui_');
-            JPageHideEvent event = new JPageHideEvent(event_, ui_);
-            controller.add(event);
-          }]);
-        return controller.stream;
-      }
+  Stream<JPageHideEvent> get onHide {
+    StreamController<JPageHideEvent> controller = new StreamController(sync: true);
+
+    jsObject.callMethod('on', [PAGE_HIDE, (event_, ui_) {
+        //onBeforeCreate();
+        devPrint('show $ui_');
+        JPageHideEvent event = new JPageHideEvent(event_, ui_);
+        controller.add(event);
+      }]);
+    return controller.stream;
+  }
 
   Stream<JPageBeforeChangeEvent> get onBeforeChange {
     StreamController<JPageBeforeChangeEvent> controller = new StreamController(sync: true);
@@ -104,6 +104,7 @@ class JPageContainer extends JObjectElement {
   void changeToElement(Element page, [JPageChangeOptions options]) {
     _changeTo(queryElement(page), options);
   }
+  
   void changeToPageId(String pageId, [JPageChangeOptions options]) {
     _changeTo('#${pageId}', options);
   }

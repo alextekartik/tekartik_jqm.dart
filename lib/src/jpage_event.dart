@@ -2,9 +2,9 @@ part of tekartik_jquerymobile;
 
 
 class JqmPageEvent extends JqmEvent {
-  JPageElement get jToPage {
+  JPage get jToPage {
     if (toPage is JsObject) {
-      return new JPageElement(toPage);
+      return new JPage(toPage);
     }
     return null;
   }
@@ -19,8 +19,8 @@ class JqmPageEvent extends JqmEvent {
 
   String get toPageAsString {
     String toPageString;
-    JPageElement jToPage = this.jToPage;
-    if (jToPage is JPageElement) {
+    JPage jToPage = this.jToPage;
+    if (jToPage is JPage) {
       toPageString = "j${jToPage}";
     } else if (toPage is String) {
       toPageString = toPage;
@@ -29,7 +29,7 @@ class JqmPageEvent extends JqmEvent {
   }
   String get toPageId {
     String id;
-    if (jToPage is JPageElement) {
+    if (jToPage is JPage) {
       //devPrint(jToPage.firstElement);
       //devPrint(new Map.from(jToPage.firstElement.attributes));
       id = jToPage.id;
