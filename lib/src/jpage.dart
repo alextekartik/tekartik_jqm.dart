@@ -23,6 +23,14 @@ DivElement jNewPageHeaderElement({String title}) {
   return element;
 }
 
+DivElement jNewPageContentElement() {
+  // new in jq 1.4
+  // <div role="main" class="ui-content">
+  DivElement element = new DivElement()..attributes["role"] = "main" //
+      ..classes.add('ui-content');
+  return element;
+}
+
 class JPage extends JElement {
   factory JPage.fromElement(Element element) {
     if (element == null) {

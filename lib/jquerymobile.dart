@@ -20,7 +20,9 @@ part 'src/jpage_event.dart';
 part 'src/jbutton.dart';
 part 'src/jslider.dart';
 part 'src/jlistview.dart';
+part 'src/jpopup.dart';
 part 'src/jtransition.dart';
+part 'src/jqm_element.dart';
 
 
 
@@ -38,6 +40,14 @@ class JQueryMobile {
       _version = new Version.parse(_jsVersion);
     }
     return _version;
+  }
+  
+  void showLoading() {
+    jsObject.callMethod("loading", ["show"]);
+  }
+  
+  void hideLoading() {
+    jsObject.callMethod("loading", ["hide"]);
   }
 }
 

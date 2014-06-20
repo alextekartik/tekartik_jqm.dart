@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>kitchen_sink</title>
-<link rel="import" href="packages/polymer/polymer.html">
-<link rel="import" href="packages/tekartik_jqm/jqm_pagecontainer.html">
-<link rel="import" href="packages/tekartik_jqm/jqm_page.html">
+  <head>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="packages/tekartik_jqm/css/jquerymobile.css">
+    <title>kitchen sink</title>
+  </head>
+ 
+  <body>   
+  
+  <!-- Main -->  
+  <div data-role="page" id="main">
+    <div data-role="header">
+    <h1>Kitchen sink</h1>
+  </div>
 
-<!-- jqm -->
-<link rel="stylesheet" href="packages/tekartik_jqm/css/jquerymobile.css">
-<script type="application/dart">export 'package:tekartik_jqm/lazyloader.dart';</script>
-
-
-</head>
-
-<body>
-  <!-- /page -->
-  <jqm-pagecontainer>
-  <!--<simple-page></simple-page>-->
-  <jqm-page id="listview">
-  <div data-role="header">
-      <h1>One page</h1>
-    </div>
-    <div role="main" class="ui-content">
+  <div role="main" class="ui-content">
+    <ul id="menu" data-role="listview" data-inset="true">
+    <li><a href="#test_popup" data-rel="popup">Popup</a></li>
+    </ul>
+  </div>
+  
+  <div data-role="popup" id="test_popup">
+      <div data-role="header">
+        <h1>Try anyway?</h1>
+      </div>
       <div role="main" class="ui-content">
-      <ul data-role="listview" data-inset="true">
-    <li><a href="#jqm_demo">Demo</a></li>
-    <li><a href="#">Audi</a></li>
-    <li><a href="#">BMW</a></li>
-    <li><a href="#">Cadillac</a></li>
-    <li><a href="#">Ferrari</a></li>
-</ul>
+        <h3 class="ui-title">The output does not seem to be supported. Try anyway?</h3>
+        <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="a">Cancel</a>
+        <a href="#" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">Delete</a>
+      </div>
     </div>
-    </div>
-    </jqm-page>
-  </jqm-pagecontainer>
-</body>
+    
+  </div>
+  
+    <script type="application/dart" src="kitchen_sink.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
 </html>

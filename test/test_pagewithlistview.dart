@@ -39,8 +39,8 @@ class TestPageWithListView extends JqmPage with PageHandleOnShow {
     $['my_ul'].children.add(new LIElement()..innerHtml = 'dynamic');
     $['my_ul'].children.add(new LIElement()..innerHtml = '<a href="#">with href</a>');
     listView.element.children.clear();
-    listView.element.children.add(jListNewItem(title: 'second list', href: '#listview2'));
-    listView.element.children.add(jListNewItem(title: 'first list', href: '#listview1'));
+    listView.element.children.add(jListNewItemElement(title: 'second list', href: '#listview2'));
+    listView.element.children.add(jListNewItemElement(title: 'first list', href: '#listview1'));
         
     listView.refresh();
         //jsElement($['my_ul']).callMethod('listview', ['refresh']);

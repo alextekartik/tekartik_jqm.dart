@@ -30,6 +30,14 @@ class JButton extends JElement {
   void disable() {
     _callButtonMethod(['disable']);
   }
+  
+  void activate() {
+    element.classes.add('ui-btn-active');
+  }
+
+  void deactivate() {
+    element.classes.remove('ui-btn-active');
+  }
 
   //
   //  bool get isEnhanced {

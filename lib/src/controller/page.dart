@@ -37,7 +37,7 @@ class Page {
 
   PageContainer container;
   static Logger log = new Logger("tekartik_jqm_page");
-  
+
   /**
    * smart id getter
    * can get from polymer element or from container
@@ -45,17 +45,33 @@ class Page {
   String get id {
     return jPage.id;
   }
-  
+
+  List<Element> get children {
+    return jPage.element.children;
+  }
+
+  void _initPage() {
+    if (jPage.element.parent == null) {
+      container.jPageContainer.element.children.add(jPage.element);
+    }
+    container.pages[id] = this;
+  }
+  Page.create(this.container, String id) {
+    jPage = new JPage.fromElement(jNewPageElement(id));
+    _initPage();
+  }
+  Page.created(this.container, String id) {
+    jPage = new JPage.fromElement(container.jPageContainer.element.querySelector('#$id'));
+    _initPage();
+  }
+
   /**
    * A page has both a container and jdom element
    * 
    * It is automatically added to the container
    */
   Page(this.container, this.jPage) {
-    if (jPage.element.parent == null) {
-      container.jPageContainer.element.children.add(jPage.element);
-    }
-    container.pages[id]=this; 
+    _initPage();
   }
 
   JPage jPage;
@@ -173,9 +189,9 @@ class Page {
     });
     * */
   }
-  
+
   Element find(String selector) {
-    return jPageElement.element.querySelector(selector); 
+    return jPage.element.querySelector(selector);
   }
   Element get(String id) {
     return find('#$id');

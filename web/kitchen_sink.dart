@@ -10,6 +10,8 @@ import 'package:tekartik_utils/log_utils.dart';
 
 import 'dart:html';
 
+const String MAIN_PAGE_ID = "main";
+
 const String TEST_2_PAGE_ID = "test_dynamic_2";
 const String TEST_1_PAGE_ID = "test_dynamic_1";
 
@@ -21,6 +23,8 @@ class TestPageContainer extends PageContainer with ContainerPageFactory {
   @override
   Page createPage(String pageId) {
     switch (pageId) {
+      case MAIN_PAGE_ID:
+        return new MainPage(this, pageId);
       case TEST_2_PAGE_ID:
         return new TestDynamic2Page.create(this, pageId);
       case TEST_1_PAGE_ID:
@@ -29,6 +33,19 @@ class TestPageContainer extends PageContainer with ContainerPageFactory {
     return null;
   }
 
+}
+
+class MainPage extends Page /*with jqm.PageWithOnBeforeShow, jqm.PageWithOnBeforeTransition */ {
+  MainPage(PageContainer container, String id) : //
+      super.created(container, id) {
+
+    UListElement ul = get('menu');
+    ul.append(jListNewItemElement(title: "Popup with code", href: '#')..onClick.listen((e) {
+          new JPopup.fromElement(get('test_popup')).open();
+        }));
+    
+    new JListView.fromElement(ul).refresh();
+  }
 }
 
 LIElement jListNewPageIdItemElement(String id) {
@@ -163,7 +180,7 @@ void main() {
     Page page = new Page(pageContainer, jPage);
     pageContainer.jPageContainer.element.children.add(jPage.element);
     jPage.element.children.add(jNewPageHeaderElement(title: "dynamic basic page"));
-    pageContainer.navigate(TEST_1_PAGE_ID);
+    pageContainer.navigate(MAIN_PAGE_ID);
   });
 
 

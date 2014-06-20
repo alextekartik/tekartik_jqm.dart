@@ -1,6 +1,6 @@
 part of tekartik_jquerymobile;
 
-LIElement jListNewItem({String title, String href, bool external}) {
+LIElement jListNewItemElement({String title, String href, bool external}) {
   // simple href support of now
   Element textWrapper;
   LIElement listElement = new LIElement();
@@ -22,7 +22,7 @@ LIElement jListNewItem({String title, String href, bool external}) {
 }
 
 
-UListElement jListNewView({bool inset: false}) {
+UListElement jListNewViewElement({bool inset: false}) {
   UListElement element = new UListElement()..attributes[ATTR_DATA_ROLE] = ROLE_LISTVIEW;
   if (inset) {
     element.attributes[ATTR_DATA_INSET] = INSET_TRUE;

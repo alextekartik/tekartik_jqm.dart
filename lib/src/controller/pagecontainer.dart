@@ -114,6 +114,9 @@ class PageContainer {
   PageContainer(JPageContainer jPageContainer) : this.withFactory(jPageContainer, null);
   PageContainer.withFactory(this.jPageContainer, this.pageFactory) {
 
+    if (pageFactory == null && this is ContainerPageFactory) {
+      pageFactory = this as ContainerPageFactory;
+    }
     jPageContainer.onBeforeHide.listen((JPageBeforeHideEvent event) {
       _nextPageId = new JPage(event.nextPage).id;
     });
@@ -134,7 +137,9 @@ class PageContainer {
 
     jPageContainer.onBeforeShow.listen((JPageBeforeShowEvent event) {
       //devPrint(activePageId);
+      
       _prevPageId = new JPage(event.prevPage).id;
+      log.finest("onBeforeShow($_prevPageId->$_nextPageId) $event");
       Page prevJqmPage = getOrCreate(_prevPageId);
       if (prevJqmPage is PageHandleOnBeforeHide) {
         (prevJqmPage as PageHandleOnBeforeHide).onBeforeHide();
@@ -172,10 +177,16 @@ class PageContainer {
 
     jPageContainer.onBeforeChange.listen((JPageBeforeChangeEvent event) {
       //devPrint("event: $event");
+      
       // {type: pagebeforechange, timeStamp: 1400796025912, jQuery210010103490157052875: true, isTrigger: 3, namespace: , namespace_re: null, result: null, target: body, delegateTarget: body, currentTarget: body, handleObj: {type: pagebeforechange, origType: pagebeforechange, data: null, handler: {guid: 41}, guid: 41, selector: null, needsContext: null, namespace: }, data: null} {toPage: #test_dynamic_2, options: {reverse: false, changeHash: null, fromHashChange: false, showLoadMsg: true, allowSamePageTransition: false, transition: null, tekartik_param: null, fromPage: {0: div, length: 1, prevObject: {0: body, context: body, length: 1}, context: body}}, absUrl: http://127.0.0.1:3030/jquery_mobile/example/two_page_dynamic.html#test_dynamic_2} (:1)
       String toPageId = event.toPageId;
       String toPage = event.toPageAsString;
+      log.fine("onBeforeChange($toPageId) $event");
       devPrint("toPage: $toPage '$toPageId'");
+      
+      if (toPageId != null) {
+        getOrCreate(toPageId);
+      }
 
       //      if (event.jToPage is JObject) {
       //        if (event.jToPage.id == null) {
