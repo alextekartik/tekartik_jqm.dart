@@ -1,5 +1,15 @@
 part of tekartik_jquerymobile;
 
+ButtonElement jButtonNewElement({String title, bool inline}) {
+  ButtonElement element = new ButtonElement()
+      ..classes.add('ui-btn');
+  if (inline == true) {
+    element.classes.add('ui-btn-inline');
+  }
+  element.innerHtml = title;
+  return element;
+}
+
 //void refresh() {
 //   listViewRefresh(jsObject);
 // }

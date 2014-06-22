@@ -1,21 +1,40 @@
 part of tekartik_jquerymobile;
 
-LIElement jListNewItemElement({String title, String href, bool external}) {
+LIElement jListNewItemElement({String title, String summary, String href, bool external}) {
   // simple href support of now
   Element textWrapper;
   LIElement listElement = new LIElement();
+  Element wrapperElement;
+
+
   if (href != null) {
     AnchorElement anchorElement = new AnchorElement(href: href);
     if (external == true) {
       anchorElement.attributes[ATTR_REL] = REL_EXTERNAL;
     }
-    textWrapper = anchorElement;
-
-    listElement.children.add(textWrapper);
+    wrapperElement = anchorElement;
+    listElement.append(wrapperElement);
   } else {
-    textWrapper = listElement;
+    wrapperElement = listElement;
   }
-  textWrapper.innerHtml = title;
+
+  // Support for summary
+  // <h2>title</h2
+  // <p>summary</p>
+  if (summary != null) {
+    // webmidi=xxxx:output_num
+    // handle factories
+    wrapperElement
+        ..append(//
+        new HeadingElement.h2()..innerHtml = title)
+        //
+        ..append(new ParagraphElement()..innerHtml = summary);
+    //new JqmElement.fromElement(anchorElement)..disable();
+
+
+  } else {
+    wrapperElement.innerHtml = title;
+  }
 
 
   return listElement;
