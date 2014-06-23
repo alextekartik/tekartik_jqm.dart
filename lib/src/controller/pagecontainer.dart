@@ -3,7 +3,7 @@ part of tekartik_jquerymobile_controller;
 
 abstract class ContainerPageFactory {
   Page createPage(String pageId);
-  PageContainer container;
+  //PageContainer get container;
 }
 
 class PageChangeOptions {

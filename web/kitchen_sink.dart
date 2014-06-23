@@ -20,7 +20,7 @@ const String TEST_1_PAGE_ID = "test_dynamic_1";
 
 class TestPageContainer extends PageContainer with ContainerPageFactory {
   TestPageContainer(JPageContainer jPageContainer) : super(jPageContainer) {
-    container = this;
+    //container = this;
   }
 
   @override
@@ -33,7 +33,7 @@ class TestPageContainer extends PageContainer with ContainerPageFactory {
       case TEST_1_PAGE_ID:
         return new TestDynamicPage.create(this, pageId);
       case FOOTERS_MENU_PAGE_ID:
-        return new FootersMenuPage(container, pageId);
+        return new FootersMenuPage(this, pageId);
     }
     return null;
   }
@@ -51,6 +51,7 @@ class MainPage extends Page /*with jqm.PageWithOnBeforeShow, jqm.PageWithOnBefor
     ul.append(jListNewItemElement(title: "Footers", href: '#${FOOTERS_MENU_PAGE_ID}'));
     ul.append(jListNewItemElement(title: "Navbars", href: '#${NAVBARS_MENU_PAGE_ID}'));
     ul.append(jListNewItemElement(title: "Listviews", href: '#${LISTVIEWS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: "Tests", href: '../test/index.html', external: true));
 
 
     new JListView.fromElement(ul).refresh();

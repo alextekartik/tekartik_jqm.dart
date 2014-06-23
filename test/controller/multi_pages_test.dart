@@ -15,7 +15,7 @@ const String TEST_1_PAGE_ID = "test_dynamic_1";
 
 class TestPageContainer extends PageContainer with ContainerPageFactory {
   TestPageContainer(JPageContainer jPageContainer) : super(jPageContainer) {
-    container = this;
+    //container = this;
   }
 
   @override
