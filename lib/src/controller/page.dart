@@ -29,11 +29,16 @@ abstract class PageHandleOnBeforeHide {
   void onBeforeHide();
 }
 
+// Pure software
+abstract class PageHandleOnBeforeCreate {
+  void onBeforeCreate();
+}
+
 abstract class PageHandleOnHide {
   void onHide();
 }
 
-class Page {
+class Page extends Object with PageHandleOnBeforeCreate {
 
   PageContainer container;
   static Logger log = new Logger("tekartik_jqm_page");
@@ -56,6 +61,21 @@ class Page {
     }
     container.pages[id] = this;
   }
+
+  Page.none() {
+    
+  }
+  
+  // Called by framework
+  _initCreate(PageContainer container, String id) {
+    if (jPage == null) {
+      this.container = container;
+      jPage = new JPage.fromElement(jNewPageElement(id));
+      _initPage();
+      onBeforeCreate();
+    }
+  }
+
   Page.create(this.container, String id) {
     jPage = new JPage.fromElement(jNewPageElement(id));
     _initPage();
@@ -70,8 +90,10 @@ class Page {
    * 
    * It is automatically added to the container
    */
-  Page(this.container, this.jPage) {
-    _initPage();
+  Page([this.container, this.jPage]) {
+    if (jPage != null) {
+      _initPage();
+    }
   }
 
   JPage jPage;
@@ -81,6 +103,10 @@ class Page {
     //jPageElement.enhanceWithin();
   }
 
+  @override
+  onBeforeCreate() {
+    // nothing
+  }
 
 
   @override

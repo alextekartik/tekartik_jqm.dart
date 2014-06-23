@@ -23,6 +23,7 @@ part 'src/jlistview.dart';
 part 'src/jpopup.dart';
 part 'src/jtransition.dart';
 part 'src/jqm_element.dart';
+part 'src/jnavbar.dart';
 
 
 

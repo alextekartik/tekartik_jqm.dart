@@ -10,8 +10,8 @@ class PageChangeOptions {
   JPageChangeOptions jOptions;
   PageChangeOptions({bool changeHash, JTransition transition, bool reverse, dynamic param}) {
     jOptions = new JPageChangeOptions(changeHash: changeHash, //
-        transition: transition != null ? transition.name : null, //
-        reverse: reverse, param: param);
+    transition: transition != null ? transition.name : null, //
+    reverse: reverse, param: param);
   }
   //  var param;
   //  Transition transition;
@@ -31,6 +31,11 @@ class PageContainer {
 
   Map<String, Page> pages = {};
 
+  void register(String pageId, Page page) {
+    if (page.jPage == null) {
+      page._initCreate(this, pageId);
+    }
+  }
 
   void _change(String pageId, PageChangeOptions options) {
     jPageContainer.changeToPageId(pageId, options != null ? options.jOptions : null);
@@ -72,6 +77,10 @@ class PageContainer {
    */
   Page createPage(String pageId) {
     throw new UnimplementedError("no template to create page '$pageId'");
+  }
+
+  void back() {
+    window.history.back();
   }
   //
   void navigate(String pageId, [PageChangeOptions options]) {
@@ -137,7 +146,7 @@ class PageContainer {
 
     jPageContainer.onBeforeShow.listen((JPageBeforeShowEvent event) {
       //devPrint(activePageId);
-      
+
       _prevPageId = new JPage(event.prevPage).id;
       log.finest("onBeforeShow($_prevPageId->$_nextPageId) $event");
       Page prevJqmPage = getOrCreate(_prevPageId);
@@ -177,13 +186,13 @@ class PageContainer {
 
     jPageContainer.onBeforeChange.listen((JPageBeforeChangeEvent event) {
       //devPrint("event: $event");
-      
+
       // {type: pagebeforechange, timeStamp: 1400796025912, jQuery210010103490157052875: true, isTrigger: 3, namespace: , namespace_re: null, result: null, target: body, delegateTarget: body, currentTarget: body, handleObj: {type: pagebeforechange, origType: pagebeforechange, data: null, handler: {guid: 41}, guid: 41, selector: null, needsContext: null, namespace: }, data: null} {toPage: #test_dynamic_2, options: {reverse: false, changeHash: null, fromHashChange: false, showLoadMsg: true, allowSamePageTransition: false, transition: null, tekartik_param: null, fromPage: {0: div, length: 1, prevObject: {0: body, context: body, length: 1}, context: body}}, absUrl: http://127.0.0.1:3030/jquery_mobile/example/two_page_dynamic.html#test_dynamic_2} (:1)
       String toPageId = event.toPageId;
       String toPage = event.toPageAsString;
       log.fine("onBeforeChange($toPageId) $event");
       devPrint("toPage: $toPage '$toPageId'");
-      
+
       if (toPageId != null) {
         getOrCreate(toPageId);
       }

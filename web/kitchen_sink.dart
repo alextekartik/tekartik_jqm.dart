@@ -11,6 +11,9 @@ import 'package:tekartik_utils/log_utils.dart';
 import 'dart:html';
 
 const String MAIN_PAGE_ID = "main";
+const String LISTVIEWS_MENU_PAGE_ID = "listviews_menu";
+const String FOOTERS_MENU_PAGE_ID = "footers_menu";
+const String NAVBARS_MENU_PAGE_ID = "navbars_menu";
 
 const String TEST_2_PAGE_ID = "test_dynamic_2";
 const String TEST_1_PAGE_ID = "test_dynamic_1";
@@ -29,6 +32,8 @@ class TestPageContainer extends PageContainer with ContainerPageFactory {
         return new TestDynamic2Page.create(this, pageId);
       case TEST_1_PAGE_ID:
         return new TestDynamicPage.create(this, pageId);
+      case FOOTERS_MENU_PAGE_ID:
+        return new FootersMenuPage(container, pageId);
     }
     return null;
   }
@@ -43,9 +48,96 @@ class MainPage extends Page /*with jqm.PageWithOnBeforeShow, jqm.PageWithOnBefor
     ul.append(jListNewItemElement(title: "Popup with code", href: '#')..onClick.listen((e) {
           new JPopup.fromElement(get('test_popup')).open();
         }));
-    
+    ul.append(jListNewItemElement(title: "Footers", href: '#${FOOTERS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: "Navbars", href: '#${NAVBARS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: "Listviews", href: '#${LISTVIEWS_MENU_PAGE_ID}'));
+
+
     new JListView.fromElement(ul).refresh();
   }
+}
+
+
+class FootersMenuPage extends Page /*with jqm.PageWithOnBeforeShow, jqm.PageWithOnBeforeTransition */ {
+  FootersMenuPage(PageContainer container, String pageId) : //
+      super.create(container, pageId) {
+
+    UListElement ul = jListNewViewElement();
+    DivElement header = jNewPageHeaderElement(title: 'Footers menu header title');
+    //    ul.append(jListNewItemElement(title: "Footer", href: '')..onClick.listen((e) {
+    //          new JPopup.fromElement(get('test_popup')).open();
+    //        }));
+    //
+    //    new JListView.fromElement(ul).refresh();
+    DivElement footer = jNewPageFooterElement(title: 'Footers menu title', fixed: true);
+    children.addAll([header, footer]);
+  }
+}
+
+class NavBarsMenuPage extends Page {
+  @override
+  onBeforeCreate() {
+    UListElement ul = jListNewViewElement();
+    DivElement header = jNewPageHeaderElement(title: 'Navbars menu header title');
+    DivElement content = jNewPageContentElement();
+
+    DivElement navbar = jNewNavBarElement();
+    content.append(navbar);
+    JNavBar jNavBar = new JNavBar.fromElement(navbar);
+    jNavBar.listElement.append(jListNewItemElement(title: 'title'));
+    jNavBar.listElement.append(jListNewItemElement(title: 'title', href: '#', icon: Icon.PLUS));
+
+    //    content.append(ul);
+    //        ul.append(jListNewItemElement(title: "Footer", href: '')..onClick.listen((e) {
+    //              new JPopup.fromElement(get('test_popup')).open();
+    //            }));
+    //
+    //    new JListView.fromElement(ul).refresh();
+    DivElement footer = jNewPageFooterElement(fixed: true);
+    DivElement footerNavbar = jNewNavBarElement(iconPos: IconPos.BOTTOM);
+    jNavBar = new JNavBar.fromElement(footerNavbar);
+    jNavBar.listElement.append(jListNewItemElement(title: 'title'));
+    jNavBar.listElement.append(jListNewItemElement(title: 'title', href: '#', icon: Icon.PLUS));
+
+    footer.append(footerNavbar);
+    children.addAll([header//                     , content
+      , footer]);
+
+  }
+
+}
+
+class ListViewsMenuPage extends Page {
+  @override
+  onBeforeCreate() {
+    DivElement header = jNewPageHeaderElement(title: 'Listviews menu header title');
+    DivElement content = jNewPageContentElement();
+
+    content.append(new ParagraphElement()..innerHtml = "normal");
+    UListElement ul = jListNewViewElement();
+    ul.append(jListNewItemElement(title: "Popup with code", href: '#')..onClick.listen((e) {
+          new JPopup.fromElement(get('test_popup')).open();
+        }));
+    ul.append(jListNewItemElement(title: "Footers", href: '#${FOOTERS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: "Navbars", href: '#${NAVBARS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: 'title', href: '#', icon: Icon.PLUS));
+    content.append(ul);
+
+    content.append(new ParagraphElement()..innerHtml = "inset: true");
+    ul = jListNewViewElement(inset: true);
+    ul.append(jListNewItemElement(title: "Popup with code", href: '#')..onClick.listen((e) {
+          new JPopup.fromElement(get('test_popup')).open();
+        }));
+    ul.append(jListNewItemElement(title: "Footers", href: '#${FOOTERS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: "Navbars", href: '#${NAVBARS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: 'title', href: '#', icon: Icon.PLUS));
+    content.append(ul);
+
+
+    children.addAll([header, content]);
+
+  }
+
 }
 
 LIElement jListNewPageIdItemElement(String id) {
@@ -176,11 +268,15 @@ void main() {
   debugQuickLogging(Level.FINE);
   loadJQueryMobile().then((jqm) {
     PageContainer pageContainer = new TestPageContainer(jQueryMobilePageContainer);
-    JPage jPage = new JPage.fromElement(jNewPageElement('home'));
-    Page page = new Page(pageContainer, jPage);
-    pageContainer.jPageContainer.element.children.add(jPage.element);
-    jPage.element.children.add(jNewPageHeaderElement(title: "dynamic basic page"));
+    //    JPage jPage = new JPage.fromElement(jNewPageElement('home'));
+    //    Page page = new Page(pageContainer, jPage);
+    //    pageContainer.jPageContainer.element.children.add(jPage.element);
+    //    jPage.element.children.add(jNewPageHeaderElement(title: "dynamic basic page"));
+    pageContainer.register(NAVBARS_MENU_PAGE_ID, new NavBarsMenuPage());
+    pageContainer.register(LISTVIEWS_MENU_PAGE_ID, new ListViewsMenuPage());
     pageContainer.navigate(MAIN_PAGE_ID);
+    //pageContainer.navigate(LISTVIEWS_MENU_PAGE_ID);
+    //pageContainer.navigate(NAVBARS_MENU_PAGE_ID);
   });
 
 

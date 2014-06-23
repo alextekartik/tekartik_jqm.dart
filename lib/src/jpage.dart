@@ -31,6 +31,23 @@ DivElement jNewPageContentElement() {
   return element;
 }
 
+DivElement jNewPageFooterElement({String title, bool fixed}) {
+  
+  DivElement element = new DivElement()
+      ..attributes[ATTR_DATA_ROLE] = ROLE_FOOTER;
+  
+  if (title != null) {
+    HeadingElement h4 = new HeadingElement.h4()..setInnerHtml(title);
+        element.append(h4);
+  }
+  
+  if (fixed == true) {
+     element.attributes[ATTR_DATA_POSITION] = POSITION_FIXED;
+  }
+     
+  return element;
+}
+
 class JPage extends JElement {
   factory JPage.fromElement(Element element) {
     if (element == null) {

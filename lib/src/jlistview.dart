@@ -1,6 +1,6 @@
 part of tekartik_jquerymobile;
 
-LIElement jListNewItemElement({String title, String summary, String href, bool external}) {
+LIElement jListNewItemElement({String title, String summary, String href, bool external, Icon icon}) {
   // simple href support of now
   Element textWrapper;
   LIElement listElement = new LIElement();
@@ -12,9 +12,16 @@ LIElement jListNewItemElement({String title, String summary, String href, bool e
     if (external == true) {
       anchorElement.attributes[ATTR_REL] = REL_EXTERNAL;
     }
+
+    if (icon != null) {
+      anchorElement.attributes[ATTR_DATA_ICON] = icon.name;
+    }
     wrapperElement = anchorElement;
     listElement.append(wrapperElement);
   } else {
+    if (icon != null) {
+      devError('For now, icon needs anchor - TO BE IMPLEMENTED (OR NOT)');
+    }
     wrapperElement = listElement;
   }
 
