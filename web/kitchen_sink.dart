@@ -14,6 +14,8 @@ const String MAIN_PAGE_ID = "main";
 const String LISTVIEWS_MENU_PAGE_ID = "listviews_menu";
 const String FOOTERS_MENU_PAGE_ID = "footers_menu";
 const String NAVBARS_MENU_PAGE_ID = "navbars_menu";
+const String PARAMS_MENU_PAGE_ID = "params_menu";
+const String URL_PARAM_PAGE_ID = "url_param";
 const String CONTAINER_EVENT_PAGE_ID = "container_event";
 const String CONTAINER2_EVENT_PAGE_ID = "container2_event";
 
@@ -111,9 +113,69 @@ class NavBarsMenuPage extends Page {
 
 }
 
+class UrlParamPage extends Page with PageHandleOnBeforeShow, PageHandleOnBeforeTransition {
+  static Logger log = new Logger('ContainerEventPage');
+
+  String param;
+  ParagraphElement paramElement;
+  @override
+  onBeforeCreate() {
+    log.info('onBeforeCreate');
+    DivElement content = jNewPageContentElement();
+    paramElement = new ParagraphElement();
+    DivElement header = jNewPageHeaderElement(title: id);
+
+    content.append(paramElement);
+  //  content.append(jNewAnchorElement(href: '#$CONTAINER_EVENT_PAGE_ID', title: 'Container1', asButton: true));
+    /*
+    content.append(jNewButtonElement(title: 'Container2 with param')..onClick.listen((_) {
+          container.navigate(CONTAINER2_EVENT_PAGE_ID, new PageChangeOptions(param: "Some param"));
+        }));
+        */
+
+    children.addAll([header, content]);
+  }
+
+  @override
+  onBeforeShow() {
+    log.info('onBeforeShow');
+    paramElement.innerHtml = '${param}';
+  }
+
+  @override
+  onBeforeTransition(var param) {
+    log.info('onBeforeTransition($param');
+    this.param = param;
+  }
+}
+
+class ParamsMenuPage extends Page {
+  @override
+  onBeforeCreate() {
+
+    DivElement header = jNewPageHeaderElement(title: 'Params menu header title');
+    DivElement content = jNewPageContentElement();
+
+    UListElement ul = jListNewViewElement();
+    ul.append(jListNewItemElement(title: 'no param', href: '#$URL_PARAM_PAGE_ID'));
+    ul.append(jListNewItemElement(title: '?id=1', href: '#$URL_PARAM_PAGE_ID?id=1'));
+
+    content.append(ul);
+
+    //        ul.append(jListNewItemElement(title: "Footer", href: '')..onClick.listen((e) {
+    //              new JPopup.fromElement(get('test_popup')).open();
+    //            }));
+    //
+    //    new JListView.fromElement(ul).refresh();
+
+    children.addAll([header, content]);
+
+  }
+
+}
 class ContainerEventPage extends Page with PageHandleOnBeforeShow, PageHandleOnBeforeTransition {
   static Logger log = new Logger('ContainerEventPage');
-  
+
   String param;
   ParagraphElement paramElement;
   @override
@@ -126,8 +188,8 @@ class ContainerEventPage extends Page with PageHandleOnBeforeShow, PageHandleOnB
     content.append(paramElement);
     content.append(jNewAnchorElement(href: '#$CONTAINER_EVENT_PAGE_ID', title: 'Container1', asButton: true));
     content.append(jNewButtonElement(title: 'Container2 with param')..onClick.listen((_) {
-      container.navigate(CONTAINER2_EVENT_PAGE_ID, new PageChangeOptions(param: "Some param"));
-    }));
+          container.navigate(CONTAINER2_EVENT_PAGE_ID, new PageChangeOptions(param: "Some param"));
+        }));
 
     children.addAll([header, content]);
   }
@@ -168,6 +230,7 @@ class ListViewsMenuPage extends Page {
         }));
     ul.append(jListNewItemElement(title: "Footers", href: '#${FOOTERS_MENU_PAGE_ID}'));
     ul.append(jListNewItemElement(title: "Navbars", href: '#${NAVBARS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: "Params", href: '#${PARAMS_MENU_PAGE_ID}'));
     ul.append(jListNewItemElement(title: 'title', href: '#', icon: Icon.PLUS));
     content.append(ul);
 
@@ -311,14 +374,17 @@ void main() {
     //    pageContainer.jPageContainer.element.children.add(jPage.element);
     //    jPage.element.children.add(jNewPageHeaderElement(title: "dynamic basic page"));
     pageContainer.register(NAVBARS_MENU_PAGE_ID, new NavBarsMenuPage());
+    pageContainer.register(PARAMS_MENU_PAGE_ID, new ParamsMenuPage());
     pageContainer.register(LISTVIEWS_MENU_PAGE_ID, new ListViewsMenuPage());
     pageContainer.register(CONTAINER_EVENT_PAGE_ID, new ContainerEventPage());
     pageContainer.register(CONTAINER2_EVENT_PAGE_ID, new ContainerEventPage());
+    pageContainer.register(URL_PARAM_PAGE_ID, new UrlParamPage());
 
     pageContainer.navigate(MAIN_PAGE_ID);
     //pageContainer.navigate(CONTAINER_EVENT_PAGE_ID, new PageChangeOptions(param: "Start param"));
     //pageContainer.navigate(LISTVIEWS_MENU_PAGE_ID);
     //pageContainer.navigate(NAVBARS_MENU_PAGE_ID);
+    //pageContainer.navigate(PARAMS_MENU_PAGE_ID);
   });
 
 

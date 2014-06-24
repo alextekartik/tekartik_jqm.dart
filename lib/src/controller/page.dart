@@ -29,6 +29,10 @@ abstract class PageHandleOnBeforeTransition {
   void onBeforeTransition(var param);
 }
 
+abstract class PageHandleOnBeforeChange {
+  void onBeforeChange(JPageBeforeChangeEvent event);
+}
+
 abstract class PageHandleOnBeforeHide {
   void onBeforeHide();
 }

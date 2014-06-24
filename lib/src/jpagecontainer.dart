@@ -122,6 +122,10 @@ class JPageContainer extends JElement {
   void changeToPageId(String pageId, [JPageChangeOptions options]) {
     _changeTo('#${pageId}', options);
   }
+
+  void changeToUrl(String url, [JPageChangeOptions options]) {
+    _changeTo('$url', options);
+  }
 }
 
 

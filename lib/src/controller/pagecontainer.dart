@@ -82,6 +82,10 @@ class PageContainer {
   void back() {
     window.history.back();
   }
+
+  void navigateToUrl(String url, [PageChangeOptions options]) {
+    jPageContainer.changeToUrl(url, options != null ? options.jOptions : null);
+  }
   //
   void navigate(String pageId, [PageChangeOptions options]) {
     Page page = pages[pageId];
@@ -104,13 +108,13 @@ class PageContainer {
     _change(pageId, options);
   }
 
-//  String getToPageId(JqmPageEvent event) {
-//    String pageId = event.toPageId;
-//    if (pageId == null) {
-//      pageId = jPageContainer.activePage.id;
-//    }
-//    return pageId;
-//  }
+  //  String getToPageId(JqmPageEvent event) {
+  //    String pageId = event.toPageId;
+  //    if (pageId == null) {
+  //      pageId = jPageContainer.activePage.id;
+  //    }
+  //    return pageId;
+  //  }
   //
   //  Page getToPage(JqmPageEvent event) {
   //    return pages[getToPageId(event)];
@@ -200,8 +204,24 @@ class PageContainer {
       log.fine("onBeforeChange($toPageId) $event ${event.options}");
       //devPrint("toPage: $toPage '$toPageId'");
 
-      if (toPageId != null) {
-        getOrCreate(toPageId);
+      // jToPage is null the first time it is called
+      if (event.jToPage == null) {
+        if (toPageId == null || toPageId == '') {
+          jPageContainer.changeToPageId(rootPageId, event.options);
+          event.preventDefault();
+          return;
+        } else if (rootPageId == null) {
+          rootPageId = toPageId;
+        }
+
+        Page page = getOrCreate(toPageId);
+
+        if (page is PageHandleOnBeforeChange) {
+          (page as PageHandleOnBeforeChange).onBeforeChange(event);
+        } else {
+          log.fine("onBeforeChange($toPageId) ${event.options}");
+        }
+
       }
 
       //      if (event.jToPage is JObject) {
