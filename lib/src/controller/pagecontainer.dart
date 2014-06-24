@@ -30,11 +30,24 @@ class PageContainer {
   JPageContainer jPageContainer;
 
   Map<String, Page> pages = {};
+  Map<String, Function> lazyPages = {};
 
-  void register(String pageId, Page page) {
-    if (page.jPage == null) {
-      page._initCreate(this, pageId);
+  void register(String pageId, var page) {
+    if (page is Page) {
+      registerPage(pageId, page);
+    } else {
+      registerLazyPage(pageId, page); 
     }
+  }
+  
+  void registerPage(String pageId, Page page) {
+      if (page.jPage == null) {
+        page._initCreate(this, pageId);
+      }
+    }
+
+  void registerLazyPage(String pageId, Page pageCreatorFunction()) {
+    lazyPages[pageId] = pageCreatorFunction;
   }
 
   void _change(String pageId, PageChangeOptions options) {
@@ -53,17 +66,24 @@ class PageContainer {
     }
     Page page = pages[pageId];
     if (page == null) {
-      // create it (to implement in the app)
-      // devPrint('Creation page $pageId');
-      if (pageFactory == null) {
-        if (this is ContainerPageFactory) {
-          pageFactory = this as ContainerPageFactory;
+      // Try lazy ones
+      Function lazyCreator = lazyPages[pageId];
+      if (lazyCreator != null) {
+        page = lazyCreator();
+        register(pageId, page);
+      } else {
+        // create it (to implement in the app)
+        // devPrint('Creation page $pageId');
+        if (pageFactory == null) {
+          if (this is ContainerPageFactory) {
+            pageFactory = this as ContainerPageFactory;
+          }
         }
+        if (pageFactory == null) {
+          throw new UnimplementedError("no template to create page '$pageId' - missing ContainerPageFactory");
+        }
+        page = pageFactory.createPage(pageId);
       }
-      if (pageFactory == null) {
-        throw new UnimplementedError("no template to create page '$pageId' - missing ContainerPageFactory");
-      }
-      page = pageFactory.createPage(pageId);
       pages[pageId] = page;
       //page = createPage(pageId);
 

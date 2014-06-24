@@ -16,6 +16,7 @@ const String FOOTERS_MENU_PAGE_ID = "footers_menu";
 const String NAVBARS_MENU_PAGE_ID = "navbars_menu";
 const String PARAMS_MENU_PAGE_ID = "params_menu";
 const String URL_PARAM_PAGE_ID = "url_param";
+const String SIMPLE_LAZY_PAGE_ID = "simple_lazy";
 const String CONTAINER_EVENT_PAGE_ID = "container_event";
 const String CONTAINER2_EVENT_PAGE_ID = "container2_event";
 
@@ -53,6 +54,7 @@ class MainPage extends Page /*with jqm.PageWithOnBeforeShow, jqm.PageWithOnBefor
           new JPopup.fromElement(get('test_popup')).open();
         }));
     ul.append(jListNewItemElement(title: "Footers", href: '#${FOOTERS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: "Lazy page", href: '#${SIMPLE_LAZY_PAGE_ID}'));
     ul.append(jListNewItemElement(title: "Navbars", href: '#${NAVBARS_MENU_PAGE_ID}'));
     ul.append(jListNewItemElement(title: "Listviews", href: '#${LISTVIEWS_MENU_PAGE_ID}'));
     ul.append(jListNewItemElement(title: "Container event logger", href: '#${CONTAINER_EVENT_PAGE_ID}'));
@@ -373,12 +375,13 @@ void main() {
     //    Page page = new Page(pageContainer, jPage);
     //    pageContainer.jPageContainer.element.children.add(jPage.element);
     //    jPage.element.children.add(jNewPageHeaderElement(title: "dynamic basic page"));
-    pageContainer.register(NAVBARS_MENU_PAGE_ID, new NavBarsMenuPage());
-    pageContainer.register(PARAMS_MENU_PAGE_ID, new ParamsMenuPage());
-    pageContainer.register(LISTVIEWS_MENU_PAGE_ID, new ListViewsMenuPage());
-    pageContainer.register(CONTAINER_EVENT_PAGE_ID, new ContainerEventPage());
-    pageContainer.register(CONTAINER2_EVENT_PAGE_ID, new ContainerEventPage());
-    pageContainer.register(URL_PARAM_PAGE_ID, new UrlParamPage());
+    pageContainer.register(NAVBARS_MENU_PAGE_ID, () => new NavBarsMenuPage());
+    pageContainer.register(PARAMS_MENU_PAGE_ID, () => new ParamsMenuPage());
+    pageContainer.register(LISTVIEWS_MENU_PAGE_ID, () => new ListViewsMenuPage());
+    pageContainer.register(CONTAINER_EVENT_PAGE_ID, () => new ContainerEventPage());
+    pageContainer.register(CONTAINER2_EVENT_PAGE_ID, () => new ContainerEventPage());
+    pageContainer.register(URL_PARAM_PAGE_ID, () => new UrlParamPage());
+    pageContainer.register(SIMPLE_LAZY_PAGE_ID, () => new UrlParamPage());
 
     pageContainer.navigate(MAIN_PAGE_ID);
     //pageContainer.navigate(CONTAINER_EVENT_PAGE_ID, new PageChangeOptions(param: "Start param"));
