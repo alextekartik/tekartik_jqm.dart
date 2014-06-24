@@ -14,6 +14,8 @@ const String MAIN_PAGE_ID = "main";
 const String LISTVIEWS_MENU_PAGE_ID = "listviews_menu";
 const String FOOTERS_MENU_PAGE_ID = "footers_menu";
 const String NAVBARS_MENU_PAGE_ID = "navbars_menu";
+const String CONTAINER_EVENT_PAGE_ID = "container_event";
+const String CONTAINER2_EVENT_PAGE_ID = "container2_event";
 
 const String TEST_2_PAGE_ID = "test_dynamic_2";
 const String TEST_1_PAGE_ID = "test_dynamic_1";
@@ -51,6 +53,8 @@ class MainPage extends Page /*with jqm.PageWithOnBeforeShow, jqm.PageWithOnBefor
     ul.append(jListNewItemElement(title: "Footers", href: '#${FOOTERS_MENU_PAGE_ID}'));
     ul.append(jListNewItemElement(title: "Navbars", href: '#${NAVBARS_MENU_PAGE_ID}'));
     ul.append(jListNewItemElement(title: "Listviews", href: '#${LISTVIEWS_MENU_PAGE_ID}'));
+    ul.append(jListNewItemElement(title: "Container event logger", href: '#${CONTAINER_EVENT_PAGE_ID}'));
+
     ul.append(jListNewItemElement(title: "Tests", href: '../test/index.html', external: true));
 
 
@@ -101,11 +105,44 @@ class NavBarsMenuPage extends Page {
     jNavBar.listElement.append(jListNewItemElement(title: 'title', href: '#', icon: Icon.PLUS));
 
     footer.append(footerNavbar);
-    children.addAll([header//                     , content
-      , footer]);
+    children.addAll([header, content, footer]);
 
   }
 
+}
+
+class ContainerEventPage extends Page with PageHandleOnBeforeShow, PageHandleOnBeforeTransition {
+  static Logger log = new Logger('ContainerEventPage');
+  
+  String param;
+  ParagraphElement paramElement;
+  @override
+  onBeforeCreate() {
+    log.info('onBeforeCreate');
+    DivElement content = jNewPageContentElement();
+    paramElement = new ParagraphElement();
+    DivElement header = jNewPageHeaderElement(title: id);
+
+    content.append(paramElement);
+    content.append(jNewAnchorElement(href: '#$CONTAINER_EVENT_PAGE_ID', title: 'Container1', asButton: true));
+    content.append(jNewButtonElement(title: 'Container2 with param')..onClick.listen((_) {
+      container.navigate(CONTAINER2_EVENT_PAGE_ID, new PageChangeOptions(param: "Some param"));
+    }));
+
+    children.addAll([header, content]);
+  }
+
+  @override
+  onBeforeShow() {
+    log.info('onBeforeShow');
+    paramElement.innerHtml = '${param}';
+  }
+
+  @override
+  onBeforeTransition(var param) {
+    log.info('onBeforeTransition($param');
+    this.param = param;
+  }
 }
 
 class ListViewsMenuPage extends Page {
@@ -275,7 +312,11 @@ void main() {
     //    jPage.element.children.add(jNewPageHeaderElement(title: "dynamic basic page"));
     pageContainer.register(NAVBARS_MENU_PAGE_ID, new NavBarsMenuPage());
     pageContainer.register(LISTVIEWS_MENU_PAGE_ID, new ListViewsMenuPage());
+    pageContainer.register(CONTAINER_EVENT_PAGE_ID, new ContainerEventPage());
+    pageContainer.register(CONTAINER2_EVENT_PAGE_ID, new ContainerEventPage());
+
     pageContainer.navigate(MAIN_PAGE_ID);
+    //pageContainer.navigate(CONTAINER_EVENT_PAGE_ID, new PageChangeOptions(param: "Start param"));
     //pageContainer.navigate(LISTVIEWS_MENU_PAGE_ID);
     //pageContainer.navigate(NAVBARS_MENU_PAGE_ID);
   });

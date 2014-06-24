@@ -2,20 +2,41 @@ part of tekartik_jquerymobile;
 
 
 class JqmPageEvent extends JqmEvent {
+
+  JqmPageEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
+  dynamic get prevPage => _jqmData['prevPage']; // valid for before show
+
+
+}
+
+abstract class JqmPageEventWithOptions {
+  JsObject get _jqmData;
+  
+  JPageChangeOptions _options;
+  JPageChangeOptions get options {
+    if (_options == null) {
+      JsObject jqmOptions = _jqmOptions;
+      _options = new JPageChangeOptions.fromEventOptions(_jqmOptions);
+    }
+    return _options;
+  }
+  JsObject get _jqmOptions => _jqmData['options'];
+}
+
+abstract class JqmPageEventWithToPage {
+  JsObject get _jqmData;
+  dynamic get toPage => _jqmData['toPage']; // valid for before hide
+
   JPage get jToPage {
     if (toPage is JsObject) {
       return new JPage(toPage);
     }
     return null;
   }
-  JqmPageEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
-  dynamic get toPage => _jqmData['toPage'];
-  dynamic get prevPage => _jqmData['prevPage']; // valid for before show
   @override
   String toString() {
-    return "to:${toPageAsString} ${super.toString()}";
+    return "to:${toPageAsString}";
   }
-
 
   String get toPageAsString {
     String toPageString;
@@ -47,7 +68,6 @@ class JqmPageEvent extends JqmEvent {
     return id;
   }
 }
-
 // nextPage is valid
 class JPageBeforeHideEvent extends JqmPageEvent {
   JPageBeforeHideEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
@@ -55,7 +75,7 @@ class JPageBeforeHideEvent extends JqmPageEvent {
 }
 
 // prevPage is valid
-class JPageBeforeShowEvent extends JqmPageEvent {
+class JPageBeforeShowEvent extends JqmPageEvent with JqmPageEventWithToPage {
   JPageBeforeShowEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
 }
 
@@ -67,21 +87,11 @@ class JPageHideEvent extends JqmPageEvent {
   JPageHideEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
 }
 
+class JPageBeforeTransitionEvent extends JqmPageEvent with JqmPageEventWithToPage, JqmPageEventWithOptions {
+  JPageBeforeTransitionEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
+}
 
-class JPageBeforeChangeEvent extends JqmPageEvent {
-  JPageChangeOptions _options;
-  JPageChangeOptions get options {
-    if (_options == null) {
-      JsObject jqmOptions = _jqmOptions;
-      _options = new JPageChangeOptions.fromEventOptions(_jqmOptions);
-    }
-    return _options;
-  }
-  JsObject get _jqmOptions => _jqmData['options'];
-  dynamic get toPage => _jqmData['toPage'];
-  void set toPageId(String id) {
-    _jqmData['toPage'] = id;
-  }
+class JPageBeforeChangeEvent extends JqmPageEvent with JqmPageEventWithToPage, JqmPageEventWithOptions {
 
   JPageBeforeChangeEvent(JsObject jqmEvent, JsObject jqmData) : super(jqmEvent, jqmData);
   void preventDefault() {

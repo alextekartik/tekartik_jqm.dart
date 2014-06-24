@@ -104,13 +104,13 @@ class PageContainer {
     _change(pageId, options);
   }
 
-  String getToPageId(JqmPageEvent event) {
-    String pageId = event.toPageId;
-    if (pageId == null) {
-      pageId = jPageContainer.activePage.id;
-    }
-    return pageId;
-  }
+//  String getToPageId(JqmPageEvent event) {
+//    String pageId = event.toPageId;
+//    if (pageId == null) {
+//      pageId = jPageContainer.activePage.id;
+//    }
+//    return pageId;
+//  }
   //
   //  Page getToPage(JqmPageEvent event) {
   //    return pages[getToPageId(event)];
@@ -174,15 +174,22 @@ class PageContainer {
     //    //      }
     //    //    });
     //
-    //    jPageContainer.onBeforeTransition.listen((JBeforeTransitionEvent event) {
-    //      Page page = getToPage(event);
-    //
-    //      if (page is PageWithOnBeforeTransition) {
-    //        (page as PageWithOnBeforeTransition).onBeforeTransition();
-    //      } else {
-    //        print('On Event.PAGE_CONTAINER_BEFORE_TRANSITION ${event.toPageAsString}');
-    //      }
-    //    });
+    jPageContainer.onBeforeTransition.listen((JPageBeforeTransitionEvent event) {
+      String pageId = event.toPageId;
+      Page jqmPage = pages[pageId];
+
+      if (jqmPage is PageHandleOnBeforeTransition) {
+        (jqmPage as PageHandleOnBeforeTransition).onBeforeTransition(event.options.param);
+      } else {
+        log.fine("onBeforeShow($_nextPageId) $event");
+      }
+      //
+      //          if (page is PageHandleOnBeforeTransition) {
+      //            (page as PageHandleOnBeforeTransition).onBeforeTransition();
+      //          } else {
+      //            print('On Event.PAGE_CONTAINER_BEFORE_TRANSITION ${event.toPageAsString}');
+      //          }
+    });
 
     jPageContainer.onBeforeChange.listen((JPageBeforeChangeEvent event) {
       //devPrint("event: $event");
@@ -190,8 +197,8 @@ class PageContainer {
       // {type: pagebeforechange, timeStamp: 1400796025912, jQuery210010103490157052875: true, isTrigger: 3, namespace: , namespace_re: null, result: null, target: body, delegateTarget: body, currentTarget: body, handleObj: {type: pagebeforechange, origType: pagebeforechange, data: null, handler: {guid: 41}, guid: 41, selector: null, needsContext: null, namespace: }, data: null} {toPage: #test_dynamic_2, options: {reverse: false, changeHash: null, fromHashChange: false, showLoadMsg: true, allowSamePageTransition: false, transition: null, tekartik_param: null, fromPage: {0: div, length: 1, prevObject: {0: body, context: body, length: 1}, context: body}}, absUrl: http://127.0.0.1:3030/jquery_mobile/example/two_page_dynamic.html#test_dynamic_2} (:1)
       String toPageId = event.toPageId;
       String toPage = event.toPageAsString;
-      log.fine("onBeforeChange($toPageId) $event");
-      devPrint("toPage: $toPage '$toPageId'");
+      log.fine("onBeforeChange($toPageId) $event ${event.options}");
+      //devPrint("toPage: $toPage '$toPageId'");
 
       if (toPageId != null) {
         getOrCreate(toPageId);

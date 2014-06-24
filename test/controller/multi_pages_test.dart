@@ -160,7 +160,7 @@ void main() {
   loadJQueryMobile().then((jqm) {
     PageContainer pageContainer = new TestPageContainer(jQueryMobilePageContainer);
     JPage jPage = new JPage.fromElement(jNewPageElement('home'));
-    Page page = new Page(pageContainer, jPage);
+    Page page = new Page.withJPage(pageContainer, jPage);
     pageContainer.jPageContainer.element.children.add(jPage.element);
     jPage.element.children.add(jNewPageHeaderElement(title: "dynamic basic page"));
     pageContainer.navigate(TEST_1_PAGE_ID);

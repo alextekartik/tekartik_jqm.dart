@@ -7,6 +7,8 @@ class JPageContainer extends JElement {
   static final String PAGE_BEFORE_SHOW = 'pagecontainerbeforeshow';
   static final String PAGE_SHOW = 'pagecontainershow';
   static final String PAGE_BEFORE_HIDE = 'pagecontainerbeforehide';
+  // before transition called before "before hide & before show"
+  static final String PAGE_BEFORE_TRANSITION = 'pagecontainerbeforetransition';
   static final String PAGE_HIDE = 'pagecontainerhide';
 
   JPageContainer(jsPageContainer) : super(jsPageContainer);
@@ -41,10 +43,22 @@ class JPageContainer extends JElement {
 
     jsObject.callMethod('on', [PAGE_BEFORE_SHOW, (event_, ui_) {
         //onBeforeCreate();
-        devPrint('beforeShow $ui_');
+        //devPrint('beforeShow $ui_');
         JPageBeforeShowEvent event = new JPageBeforeShowEvent(event_, ui_);
         controller.add(event);
         //devPrint('beforeShow2');
+      }]);
+    return controller.stream;
+  }
+
+  Stream<JPageBeforeTransitionEvent> get onBeforeTransition {
+    StreamController<JPageBeforeTransitionEvent> controller = new StreamController(sync: true);
+
+    jsObject.callMethod('on', [PAGE_BEFORE_TRANSITION, (event_, ui_) {
+        devPrint('onBeforeTransition $ui_ $event_');
+        JPageBeforeTransitionEvent event = new JPageBeforeTransitionEvent(event_, ui_);
+        devPrint('onBeforeTransition ${event}');
+        controller.add(event);
       }]);
     return controller.stream;
   }
@@ -104,7 +118,7 @@ class JPageContainer extends JElement {
   void changeToElement(Element page, [JPageChangeOptions options]) {
     _changeTo(queryElement(page), options);
   }
-  
+
   void changeToPageId(String pageId, [JPageChangeOptions options]) {
     _changeTo('#${pageId}', options);
   }
@@ -143,7 +157,7 @@ class JPageChangeOptions {
     Map map = {
       'changeHash': changeHash,
       'transition': transition,
-      'param': param,
+      'tekartik_param': param,
       'reverse': reverse,
     };
     return map;

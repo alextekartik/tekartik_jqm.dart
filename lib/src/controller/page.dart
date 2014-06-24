@@ -25,6 +25,10 @@ abstract class PageHandleOnBeforeShow {
   void onBeforeShow();
 }
 
+abstract class PageHandleOnBeforeTransition {
+  void onBeforeTransition(var param);
+}
+
 abstract class PageHandleOnBeforeHide {
   void onBeforeHide();
 }
@@ -61,10 +65,6 @@ class Page extends Object with PageHandleOnBeforeCreate {
     }
     container.pages[id] = this;
   }
-
-  Page.none() {
-    
-  }
   
   // Called by framework
   _initCreate(PageContainer container, String id) {
@@ -90,10 +90,16 @@ class Page extends Object with PageHandleOnBeforeCreate {
    * 
    * It is automatically added to the container
    */
-  Page([this.container, this.jPage]) {
+  Page.withJPage(this.container, this.jPage) {
     if (jPage != null) {
       _initPage();
     }
+  }
+  
+  /**
+   * such page must be registered
+   */
+  Page() {
   }
 
   JPage jPage;

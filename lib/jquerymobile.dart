@@ -14,6 +14,7 @@ import 'package:tekartik_utils/version.dart';
 
 part 'src/jattributes.dart';
 part 'src/jpage.dart';
+part 'src/janchor.dart';
 part 'src/jpagecontainer.dart';
 part 'src/jevent.dart';
 part 'src/jpage_event.dart';

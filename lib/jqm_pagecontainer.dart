@@ -38,7 +38,7 @@ JqmPageContainer findPageContainer(Element element) {
 @CustomTag('jqm-pagecontainer')
 class JqmPageContainer extends PolymerElement with NoShadowDom {
   Logger log = new Logger("tekartik_jqm_pagecontainer");
-  
+
   //Future get whenAttached =>
   JqmPageContainer.created() : super.created() {
     devPrint('jqm-pagecontainer created');
@@ -94,7 +94,7 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
 
     // This is for javascript where pages are loaded later...
     on[JQM_PAGE_ATTACHED_EVENT_TYPE].listen((CustomEvent e) {
-      
+
       //print(e);
       //print(e.detail);
       JqmPage jqmPage = e.detail;
@@ -102,10 +102,10 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
         _initPages();
         //jqmPage.enhance();
         String id = jqmPage.id;
-        
+
         pages[id] = jqmPage;
         log.fine(JQM_PAGE_ATTACHED_EVENT_TYPE + " $id $e ${e.detail} ${pages}");
-                
+
         // log.fine("page $id");
         _goFirstPage();
       } else {
@@ -144,7 +144,7 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
       if (prevJqmPage is PageHandleOnBeforeHide) {
         prevJqmPage.onBeforeHide();
       }
-      JPageElement pageElement = event.jToPage;
+      //JPage pageElement = event.jToPage;
       //if (pa)
       var jqmPage = pages[_nextPageId];
 
@@ -245,7 +245,7 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
           devPrint('Polymer.onReady');
           firstPageShown = true;
 
-          
+
           // find first
           log.fine("pages:${pages}");
           devPrint("keys:${$.keys}");
@@ -253,11 +253,11 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
           // if ($.keys.isNotEmpty) {
           if (pages.isNotEmpty) {
             // firstPageId = pages.keys.first;
-            
+
             // Find the first page
             // if not specified anywhere
             firstPageId = children.first.id;
-                      
+
 
             devPrint('active page id: ${activePageId} first: $firstPageId');
 
@@ -304,4 +304,3 @@ class JqmPageContainer extends PolymerElement with NoShadowDom {
     return 'page container: active $activePageId';
   }
 }
-

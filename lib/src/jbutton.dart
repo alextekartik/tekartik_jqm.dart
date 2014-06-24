@@ -1,12 +1,17 @@
 part of tekartik_jquerymobile;
 
+ButtonElement jNewButtonElement({String title, bool inline}) {
+  return jButtonNewElement(title: title, inline: inline);
+}
+
 ButtonElement jButtonNewElement({String title, bool inline}) {
-  ButtonElement element = new ButtonElement()
-      ..classes.add('ui-btn');
+  ButtonElement element = new ButtonElement()..classes.add('ui-btn');
   if (inline == true) {
     element.classes.add('ui-btn-inline');
   }
-  element.innerHtml = title;
+  if (title != null) {
+    element.innerHtml = title;
+  }
   return element;
 }
 
@@ -40,7 +45,7 @@ class JButton extends JElement {
   void disable() {
     _callButtonMethod(['disable']);
   }
-  
+
   void activate() {
     element.classes.add('ui-btn-active');
   }
