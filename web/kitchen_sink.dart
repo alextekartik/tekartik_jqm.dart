@@ -369,7 +369,11 @@ class TestDynamic2Page extends Page with PageHandleOnBeforeShow { //, PageWithOn
 void main() {
 
   debugQuickLogging(Level.FINE);
-  loadJQueryMobile().then((jqm) {
+  loadJQueryMobile(onMobileInit: () {
+    devPrint('verion: ${jQuery.version}');
+    devPrint('verion: ${jQueryMobile.version}');
+    //jQueryMobile.
+  }).then((jqm) {
     PageContainer pageContainer = new TestPageContainer(jQueryMobilePageContainer);
     //    JPage jPage = new JPage.fromElement(jNewPageElement('home'));
     //    Page page = new Page(pageContainer, jPage);
@@ -382,6 +386,7 @@ void main() {
     pageContainer.register(CONTAINER2_EVENT_PAGE_ID, () => new ContainerEventPage());
     pageContainer.register(URL_PARAM_PAGE_ID, () => new UrlParamPage());
     pageContainer.register(SIMPLE_LAZY_PAGE_ID, () => new UrlParamPage());
+    pageContainer.defaultPageTransition = JTransition.NONE;
 
     pageContainer.navigate(MAIN_PAGE_ID);
     //pageContainer.navigate(CONTAINER_EVENT_PAGE_ID, new PageChangeOptions(param: "Start param"));

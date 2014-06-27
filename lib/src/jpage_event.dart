@@ -21,6 +21,7 @@ abstract class JqmPageEventWithOptions {
     return _options;
   }
   JsObject get _jqmOptions => _jqmData['options'];
+  JsObject get jqmOptions => _jqmData['options'];
 }
 
 abstract class JqmPageEventWithToPage {

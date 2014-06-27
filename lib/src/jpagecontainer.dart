@@ -28,7 +28,7 @@ class JPageContainer extends JElement {
   _changeTo(dynamic target, [JPageChangeOptions options]) {
     JsObject jsOptions;
     if (options != null) {
-      jsOptions = new JsObject.jsify(options.toMap());
+      jsOptions = options.jsObject;
     }
     devPrint(jsObjectOrAnyToDebugString(target));
 
@@ -130,15 +130,8 @@ class JPageContainer extends JElement {
 
 
 class JPageChangeOptions {
-  JPageChangeOptions.fromEventOptions(JsObject jqmOptions)
-      : param = jqmOptions['tekartik_param'],
-        //
-      transition = jqmOptions['transition'],
-        //
-      changeHash = jqmOptions['changeHash'],
-        reverse = jqmOptions['reverse'] {
-
-  }
+  JsObject jsObject;
+  JPageChangeOptions.fromEventOptions(this.jsObject);
   // options:
   //  {reverse: false,
   //  changeHash: null,
@@ -149,26 +142,29 @@ class JPageChangeOptions {
   //  tekartik_param: null,
   //  fromPage: {0: div, length: 1, prevObject: {0: body, context: body, length: 1}, context: body}},
   //  absUrl: http://127.0.0.1:3030/jquery_mobile/example/two_page_dynamic.html#test_dynamic_2} (:1)
-  JPageChangeOptions({this.changeHash, this.transition, this.param, this.reverse}) {
-  }
-  final bool changeHash;
-  final String transition;
-  // User param
-  final dynamic param;
-  final bool reverse;
-
-  Map toMap() {
-    Map map = {
-      'changeHash': changeHash,
-      'transition': transition,
-      'tekartik_param': param,
+  JPageChangeOptions({bool changeHash, String transition, dynamic param, bool reverse}) {
+    jsObject = new JsObject.jsify({
       'reverse': reverse,
-    };
-    return map;
+      'tekartik_param': param,
+      'changeHash': changeHash
+    });
+    this.transition = transition;
   }
+  
+  set transition(String transition) => jsObject['transition'] = transition;
+  bool get changeHash => jsObject['changeHash'];
+  String get transition => jsObject['transition'];
+  // User param
+  dynamic get param => jsObject['tekartik_param'];
+  bool get reverse => jsObject['reverse'];
+
+  Map _toMap() {
+    return jsObjectAsMap(jsObject);
+  }
+  
   @override
   String toString() {
-    return toMap().toString();
+    return _toMap().toString();
   }
 
 }

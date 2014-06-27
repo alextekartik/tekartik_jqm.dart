@@ -13,15 +13,15 @@ class PageChangeOptions {
     transition: transition != null ? transition.name : null, //
     reverse: reverse, param: param);
   }
-  //  var param;
-  //  Transition transition;
-  //  String id;
-  //  Page page;
-  //  bool changeHash; // default true
+  dynamic get param => jOptions.param;
+  JTransition get transition => jOptions.transition != null ? new JTransition(jOptions.transition) : null;
+  bool get reverse => jOptions.reverse;
+  bool get changeHash => jOptions.changeHash;
 }
 
 class PageContainer {
 
+  JTransition defaultPageTransition;
   ContainerPageFactory pageFactory;
 
   // Set on first change
@@ -36,15 +36,15 @@ class PageContainer {
     if (page is Page) {
       registerPage(pageId, page);
     } else {
-      registerLazyPage(pageId, page); 
+      registerLazyPage(pageId, page);
     }
   }
-  
+
   void registerPage(String pageId, Page page) {
-      if (page.jPage == null) {
-        page._initCreate(this, pageId);
-      }
+    if (page.jPage == null) {
+      page._initCreate(this, pageId);
     }
+  }
 
   void registerLazyPage(String pageId, Page pageCreatorFunction()) {
     lazyPages[pageId] = pageCreatorFunction;
@@ -103,6 +103,24 @@ class PageContainer {
     window.history.back();
   }
 
+  /**
+   * Fix default options for change page
+   */
+  PageChangeOptions _fixDefaultOptions(PageChangeOptions options) {
+    // Change default?
+    if (defaultPageTransition != null) {
+      if (options == null) {
+        options = new PageChangeOptions(transition: defaultPageTransition);
+      } else {
+        JTransition currentTransition = options.transition;
+        if (currentTransition == null || currentTransition != defaultPageTransition) {
+          options = new PageChangeOptions(changeHash: options.changeHash, transition: defaultPageTransition, reverse: options.reverse, param: options.param);
+        }
+      }
+    }
+    return options;
+  }
+
   void navigateToUrl(String url, [PageChangeOptions options]) {
     jPageContainer.changeToUrl(url, options != null ? options.jOptions : null);
   }
@@ -112,12 +130,13 @@ class PageContainer {
     JTransition transition;
     bool changeHash;
 
-    // Set default options for start page
-    if (options == null) {
-      if (pages.length == 0) {
-        options = new PageChangeOptions(changeHash: false, transition: JTransition.FADE);
-      }
-    }
+    //options = _fixDefaultOptions(options);
+    //    // Set default options for start page
+    //    if (options == null) {
+    //      if (pages.length == 0) {
+    //        options = new PageChangeOptions(changeHash: false, transition: JTransition.FADE);
+    //      }
+    //    }
     //
     //      }
     //    } else {
@@ -224,6 +243,11 @@ class PageContainer {
       log.fine("onBeforeChange($toPageId) $event ${event.options}");
       //devPrint("toPage: $toPage '$toPageId'");
 
+      // Change default?
+      if (defaultPageTransition != null) {
+        event.options.transition = defaultPageTransition.name;
+      }
+      
       // jToPage is null the first time it is called
       if (event.jToPage == null) {
         if (toPageId == null || toPageId == '') {
