@@ -17,7 +17,6 @@ dependency_overrides:
     path: ../tekartik_utils.dart
   tekartik_jqm_asset:
     path: ../tekartik_jqm_asset.dart
-  test: any
 transformers:
 - polymer:
     entry_points: 
